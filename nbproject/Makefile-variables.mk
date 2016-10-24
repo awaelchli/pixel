@@ -7,13 +7,13 @@ CND_BASEDIR=`pwd`
 CND_BUILDDIR=build
 CND_DISTDIR=dist
 # Debug configuration
-CND_PLATFORM_Debug=GNU_6.2-MacOSX
-CND_ARTIFACT_DIR_Debug=dist/Debug/GNU_6.2-MacOSX
+CND_PLATFORM_Debug=GNU-Linux
+CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
 CND_ARTIFACT_NAME_Debug=pixel
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU_6.2-MacOSX/pixel
-CND_PACKAGE_DIR_Debug=dist/Debug/GNU_6.2-MacOSX/package
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/pixel
+CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
 CND_PACKAGE_NAME_Debug=pixel.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU_6.2-MacOSX/package/pixel.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/pixel.tar
 # Release configuration
 CND_PLATFORM_Release=GNU_6.2-MacOSX
 CND_ARTIFACT_DIR_Release=dist/Release/GNU_6.2-MacOSX

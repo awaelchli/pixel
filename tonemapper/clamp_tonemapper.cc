@@ -50,6 +50,7 @@ namespace pixel {
                 file << static_cast<int32_t>(clamped_c[1] * 255) << " ";
                 file << static_cast<int32_t>(clamped_c[2] * 255) << " ";
             }
+            file << "\n";
         }
         // Close file
         file.close();

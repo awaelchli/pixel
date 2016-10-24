@@ -102,30 +102,21 @@ namespace pixel {
     /*
      * Length of a vector
      */
-    inline real length(const vec4 & v) {
-        return (std::sqrt(sqrd_length(v)));
-    }
-    
-    inline real length(const vec2 & v) {
+    template <typename VEC_T>
+    inline real length(const VEC_T & v) {
         return (std::sqrt(sqrd_length(v)));
     }
     
     /*
      * Normalize vector
      */
-    inline vec4 normalize(const vec4 & v) {
+    template <typename VEC_T>
+    inline VEC_T normalize(const VEC_T & v) {
         return (v / length(v));
     }
     
-    inline void normalize(vec4 * const v) {
-        *v = *v / length(*v);
-    }
-    
-    inline vec2 normalize(const vec2 & v) {
-        return (v / length(v));
-    }
-    
-    inline void normalize(vec2 * const v) {
+    template <typename VEC_T>
+    inline void normalize(VEC_T * const v) {
         *v = *v / length(*v);
     }
     

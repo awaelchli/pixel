@@ -48,6 +48,17 @@ namespace pixel {
 #endif
     
     /*
+     * Forward declare project classes
+     */
+    template <typename VEC_T>
+    class ray;
+    class camera;
+    class film;
+    class box_filter_film;
+    class tone_mapper;
+    class clamp_tone_mapper;
+    
+    /*
      * Declare constant values
      */
     static real EPS = 10e-5;
