@@ -45,6 +45,14 @@
                    displayName="Test Files"
                    projectFiles="false"
                    kind="TEST_LOGICAL_FOLDER">
+      <logicalFolder name="f2"
+                     displayName="vector_test"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/vector_test_class.cc</itemPath>
+        <itemPath>tests/vector_test_class.h</itemPath>
+        <itemPath>tests/vector_test_runner.cc</itemPath>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -63,6 +71,7 @@
       </toolsSet>
       <compileType>
         <ccTool>
+          <developmentMode>4</developmentMode>
           <architecture>2</architecture>
           <standard>11</standard>
           <incDir>
@@ -70,7 +79,7 @@
             <pElem>film</pElem>
             <pElem>tonemapper</pElem>
           </incDir>
-          <commandLine>-Wextra -Wall -pedantic</commandLine>
+          <commandLine>-Wall -Wextra -pedantic -march=native</commandLine>
         </ccTool>
         <linkerTool>
           <linkerDynSerch>
@@ -81,21 +90,13 @@
       </compileType>
       <item path="core/camera.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="core/film.cc" ex="false" tool="1" flavor2="0">
-      </item>
       <item path="core/film.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="core/matrix.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/matrix.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/pixel.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/ray.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="core/spectrum.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="core/tonemapper.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/tonemapper.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -109,20 +110,36 @@
           </linkerDynSerch>
         </linkerTool>
       </folder>
-      <item path="film/box_film.cc" ex="false" tool="1" flavor2="0">
-      </item>
+      <folder path="TestFiles/f2">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
       <item path="film/box_film.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cc" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="tonemapper/clamp_tonemapper.cc" ex="false" tool="1" flavor2="0">
+      <item path="tests/vector_test_class.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/vector_test_class.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/vector_test_runner.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tonemapper/clamp_tonemapper.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
-        <compilerSet>default</compilerSet>
+        <compilerSet>GNU|GNU</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
@@ -131,7 +148,7 @@
           <developmentMode>5</developmentMode>
         </cTool>
         <ccTool>
-          <developmentMode>5</developmentMode>
+          <developmentMode>6</developmentMode>
           <architecture>2</architecture>
           <standard>11</standard>
           <incDir>
@@ -156,11 +173,7 @@
       </compileType>
       <item path="core/camera.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="core/film.cc" ex="false" tool="1" flavor2="0">
-      </item>
       <item path="core/film.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="core/matrix.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/matrix.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -169,8 +182,6 @@
       <item path="core/ray.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/spectrum.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="core/tonemapper.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/tonemapper.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -184,13 +195,29 @@
           </linkerDynSerch>
         </linkerTool>
       </folder>
-      <item path="film/box_film.cc" ex="false" tool="1" flavor2="0">
-      </item>
+      <folder path="TestFiles/f2">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
       <item path="film/box_film.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cc" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="tonemapper/clamp_tonemapper.cc" ex="false" tool="1" flavor2="0">
+      <item path="tests/vector_test_class.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/vector_test_class.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/vector_test_runner.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tonemapper/clamp_tonemapper.h" ex="false" tool="3" flavor2="0">
       </item>

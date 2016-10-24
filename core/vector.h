@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-/* 
+/*
  * File:   vector.h
  * Author: simon
  *
@@ -34,114 +34,147 @@
 
 #include "pixel.h"
 #include <cmath>
+#include <immintrin.h>
 
 namespace pixel {
 
     /*
-     * Define vector types
+     * Define 4D-vector struct
      */
-    typedef vector(real, 4) vec4;
-    typedef vector(real, 2) vec2;
-    
+    struct vector {
+
+        /*
+         * Constructor
+         */
+        vector() {
+            e[0] = e[1] = e[2] = e[3] = 0.0;
+        }
+
+        vector(const double x, const double y, const double z, const double w) {
+            e[0] = x;
+            e[1] = y;
+            e[2] = z;
+            e[3] = w;
+        }
+
+        /*
+         * Vector elements, 32 bytes aligned
+         */
+        double e[4] __attribute__((aligned(sizeof (double) * 4)));
+    };
+
     /*
      * Define inline functions for vectors
      */
-    
+
     /*
      * Print vector
      */
-    inline void print_vec(const vec4 & v) {
-        std::cout << "[" << v[0] << "," << v[1] << "," << v[2] << "," << v[3] << "]" << std::endl;
+    inline void print_vec(const vector & v) {
+        std::cout << "[" << v.e[0] << "," << v.e[1] << "," << v.e[2] << "," << v.e[3] << "]" << std::endl;
     }
-    
-    inline void print_vec(const vec2 & v) {
-        std::cout << "[" << v[0] << "," << v[1] << "]" << std::endl;
-    }
-    
+
     /*
      * Dot product
      */
-    inline real dot(const vec4 & v1, const vec4 & v2) {
-        vec4 v = v1 * v2;
-        
-        return (v[0] + v[1] + v[2] + v[3]);
+    inline double dot(const vector & v1, const vector & v2) {
+        // Load into two registers the two vector data
+        __m256d a = _mm256_load_pd(v1.e);
+        __m256d b = _mm256_load_pd(v2.e);
+        // Multiply the two together
+        __m256d c = _mm256_mul_pd(a, b);
+        // Store result
+        double res[4];
+        _mm256_store_pd(res, c);
+
+        // Return sum over components
+        return (res[0] + res[1] + res[2] + res[3]);
     }
-    
-    inline real dot(const vec2 & v1, const vec2 & v2) {
-        vec2 v = v1 * v2;
-        
-        return (v[0] + v[1]);
-    }
-    
+
     /*
      * Absolute value of the dot product
      */
-    inline real abs_dot(const vec4 & v1, const vec4 & v2) {
+    inline double abs_dot(const vector & v1, const vector & v2) {
         return std::abs(dot(v1, v2));
     }
-    
-    inline real abs_dot(const vec2 & v1, const vec2 & v2) {
-        return std::abs(dot(v1, v2));
-    }
-    
+
     /*
      * Squared length of a vector
      */
-    inline real sqrd_length(const vec4 & v) {
-        vec4 v_2 = v * v;
-        
-        return (v_2[0] + v_2[1] + v_2[2] + v_2[3]);
+    inline double sqrd_length(const vector & v) {
+        return dot(v, v);
     }
-    
-    inline real sqrd_length(const vec2 & v) {
-        vec2 v_2 = v * v;
-        
-        return (v_2[0] + v_2[1]);
-    }
-    
+
     /*
      * Length of a vector
      */
-    template <typename VEC_T>
-    inline real length(const VEC_T & v) {
+    inline double length(const vector & v) {
         return (std::sqrt(sqrd_length(v)));
     }
-    
+
     /*
      * Normalize vector
      */
-    template <typename VEC_T>
-    inline VEC_T normalize(const VEC_T & v) {
-        return (v / length(v));
+    inline vector normalize(const vector & v) {
+        // Load into register the vector data
+        __m256d a = _mm256_load_pd(v.e);
+        // Multiply with itself
+        __m256d b = _mm256_mul_pd(a, a);
+        // Store result
+        double res[4];
+        _mm256_store_pd(res, b);
+        // Compute length
+        double norm = std::sqrt(res[0] + res[1] + res[2] + res[3]);
+        // Create result
+        vector result;
+        // Compute result
+        __m256d c = _mm256_div_pd(a, _mm256_set_pd(norm, norm, norm, norm));
+        // Set result
+        _mm256_store_pd(result.e, c);
+
+        return result;
     }
-    
-    template <typename VEC_T>
-    inline void normalize(VEC_T * const v) {
-        *v = *v / length(*v);
+
+    inline void normalize(vector * const v) {
+        // Load into register the vector data
+        __m256d a = _mm256_load_pd(v->e);
+        // Multiply with itself
+        __m256d b = _mm256_mul_pd(a, a);
+        // Store result
+        double res[4];
+        _mm256_store_pd(res, b);
+        // Compute length
+        double norm = std::sqrt(res[0] + res[1] + res[2] + res[3]);
+        // Create result
+        vector result;
+        // Compute result
+        __m256d c = _mm256_div_pd(a, _mm256_set_pd(norm, norm, norm, norm));
+        // Set result
+        _mm256_store_pd(v->e, c);
     }
-    
+
     /*
      * Compute cross product
      * Considers only the first three component and set last to 0)
      */
-    inline vec4 cross(const vec4 & v1, const vec4 & v2) {
-        return vec4{ v1[1] * v2[2] - v1[2] * v2[1],
-                    v1[2] * v2[0] - v1[0] * v2[2],
-                    v1[0] * v2[1] - v1[1] * v2[0],
-                    0 };
+    inline vector cross(const vector & v1, const vector & v2) {
+        return vector(v1.e[1] * v2.e[2] - v1.e[2] * v2.e[1],
+                v1.e[2] * v2.e[0] - v1.e[0] * v2.e[2],
+                v1.e[0] * v2.e[1] - v1.e[1] * v2.e[0],
+                0.0);
     }
-    
+
     /*
      * Compute orthogonal vector to the given one
      */
-    inline vec4 orthogonal(const vec4 & v) {
-        if (std::abs(v[0]) <= std::abs(v[1]) && std::abs(v[0]) <= std::abs(v[2])) {
-            return vec4{0, -v[2], v[1], 0};
-	} else if (std::abs(v[1]) <= std::abs(v[0]) && std::abs(v[1]) <= std::abs(v[2])) {
-            return vec4{-v[2], 0, v[0], 0};
-	} else {
-            return vec4{-v[1], v[0], 0, 0};
-	}
+    inline vector orthogonal(const vector & v) {
+        if (std::abs(v.e[0]) <= std::abs(v.e[1]) && std::abs(v.e[0]) <= std::abs(v.e[2])) {
+            return vector(0, -v.e[2], v.e[1], 0);
+        } else if (std::abs(v.e[1]) <= std::abs(v.e[0]) && std::abs(v.e[1]) <= std::abs(v.e[2])) {
+            return vector(-v.e[2], 0, v.e[0], 0);
+        } else {
+            return vector(-v.e[1], v.e[0], 0, 0);
+        }
     }
 }
 

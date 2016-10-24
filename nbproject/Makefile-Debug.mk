@@ -35,20 +35,26 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/core/film.o \
-	${OBJECTDIR}/core/matrix.o \
-	${OBJECTDIR}/core/tonemapper.o \
-	${OBJECTDIR}/film/box_film.o \
-	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/tonemapper/clamp_tonemapper.o
+	${OBJECTDIR}/main.o
 
+# Test Directory
+TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
+
+# Test Files
+TESTFILES= \
+	${TESTDIR}/TestFiles/f2
+
+# Test Object Files
+TESTOBJECTFILES= \
+	${TESTDIR}/tests/vector_test_class.o \
+	${TESTDIR}/tests/vector_test_runner.o
 
 # C Compiler Flags
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-m64 -Wextra -Wall -pedantic
-CXXFLAGS=-m64 -Wextra -Wall -pedantic
+CCFLAGS=-m64 -Wall -Wextra -pedantic -march=native
+CXXFLAGS=-m64 -Wall -Wextra -pedantic -march=native
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -67,38 +73,56 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pixel: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pixel ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/core/film.o: core/film.cc
-	${MKDIR} -p ${OBJECTDIR}/core
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -Icore -Ifilm -Itonemapper -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/film.o core/film.cc
-
-${OBJECTDIR}/core/matrix.o: core/matrix.cc
-	${MKDIR} -p ${OBJECTDIR}/core
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -Icore -Ifilm -Itonemapper -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/matrix.o core/matrix.cc
-
-${OBJECTDIR}/core/tonemapper.o: core/tonemapper.cc
-	${MKDIR} -p ${OBJECTDIR}/core
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -Icore -Ifilm -Itonemapper -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/tonemapper.o core/tonemapper.cc
-
-${OBJECTDIR}/film/box_film.o: film/box_film.cc
-	${MKDIR} -p ${OBJECTDIR}/film
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -Icore -Ifilm -Itonemapper -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/film/box_film.o film/box_film.cc
-
 ${OBJECTDIR}/main.o: main.cc
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -Icore -Ifilm -Itonemapper -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cc
-
-${OBJECTDIR}/tonemapper/clamp_tonemapper.o: tonemapper/clamp_tonemapper.cc
-	${MKDIR} -p ${OBJECTDIR}/tonemapper
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -Icore -Ifilm -Itonemapper -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tonemapper/clamp_tonemapper.o tonemapper/clamp_tonemapper.cc
+	$(COMPILE.cc) -g -O2 -Icore -Ifilm -Itonemapper -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cc
 
 # Subprojects
 .build-subprojects:
+
+# Build Test Targets
+.build-tests-conf: .build-tests-subprojects .build-conf ${TESTFILES}
+.build-tests-subprojects:
+
+${TESTDIR}/TestFiles/f2: ${TESTDIR}/tests/vector_test_class.o ${TESTDIR}/tests/vector_test_runner.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc} -o ${TESTDIR}/TestFiles/f2 $^ ${LDLIBSOPTIONS}   -Wl,-rpath,'.' -Wl,-rpath,'.' `cppunit-config --libs`   
+
+
+${TESTDIR}/tests/vector_test_class.o: tests/vector_test_class.cc 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -O2 -Icore -Ifilm -Itonemapper -std=c++14 `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/vector_test_class.o tests/vector_test_class.cc
+
+
+${TESTDIR}/tests/vector_test_runner.o: tests/vector_test_runner.cc 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -O2 -Icore -Ifilm -Itonemapper -std=c++14 `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/vector_test_runner.o tests/vector_test_runner.cc
+
+
+${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/main.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -O2 -Icore -Ifilm -Itonemapper -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main_nomain.o main.cc;\
+	else  \
+	    ${CP} ${OBJECTDIR}/main.o ${OBJECTDIR}/main_nomain.o;\
+	fi
+
+# Run Test Targets
+.test-conf:
+	@if [ "${TEST}" = "" ]; \
+	then  \
+	    ${TESTDIR}/TestFiles/f2 || true; \
+	else  \
+	    ./${TEST} || true; \
+	fi
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}

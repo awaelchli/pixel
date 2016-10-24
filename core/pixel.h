@@ -37,16 +37,7 @@
 #include <string>
 
 namespace pixel {
-    
-    /*
-     * Define type to use
-     */
-#ifdef DOUBLE_PRECISION
-    typedef double real;
-#else
-    typedef float real;
-#endif
-    
+
     /*
      * Forward declare project classes
      */
@@ -57,32 +48,28 @@ namespace pixel {
     class box_filter_film;
     class tone_mapper;
     class clamp_tone_mapper;
+    struct vector;
     
     /*
      * Declare constant values
      */
-    static real EPS = 10e-5;
-    static real PI = 3.14159265;
-    static real TWO_PI = 6.28318530718;
-    static real ONE_OVER_PI = 0.318309886184;
-    static real ONE_OVER_2_PI = 0.159154943092;
-    static real ONE_OVER_4_PI = 0.07957747154;
-    
-    /*
-     * Macro to define vector types
-     */
-    #define vector(type, size) type __attribute__ ((vector_size (sizeof(type) * (size))))
-    
+    static double EPS = 10e-5;
+    static double PI = 3.14159265;
+    static double TWO_PI = 6.28318530718;
+    static double ONE_OVER_PI = 0.318309886184;
+    static double ONE_OVER_2_PI = 0.159154943092;
+    static double ONE_OVER_4_PI = 0.07957747154;
+
     /*
      * Maximum and minium functions
      */
     template <typename T>
-    inline real fmin(const T a, const T b) {
+    inline T fmin(const T a, const T b) {
         return (a < b ? a : b);
     }
     
     template <typename T>
-    inline real fmax(const T a, const T b) {
+    inline T fmax(const T a, const T b) {
         return (a > b ? a : b);
     }
 
@@ -90,7 +77,7 @@ namespace pixel {
      *  Clamp value
      */
     template <typename T>
-    inline real clamp(const T val, const T min, const T max) {
+    inline T clamp(const T val, const T min, const T max) {
         return fmin(fmax(val, min), max);
     }
 
@@ -98,7 +85,7 @@ namespace pixel {
      * Degree to radians
      */
     template <typename T>
-    inline real deg_to_rad(const T deg) {
+    inline T deg_to_rad(const T deg) {
         return ((PI / 180.0) * deg);
     }
 
@@ -106,7 +93,7 @@ namespace pixel {
      * Radians to degree
      */
     template <typename T>
-    inline real rad_to_deg(const T rad) {
+    inline T rad_to_deg(const T rad) {
         return ((180.0 / PI) * rad);
     }
 }

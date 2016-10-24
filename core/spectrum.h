@@ -33,13 +33,24 @@
 #define SPECTRUM_H
 
 #include "pixel.h"
+#include "emmintrin.h"
 
 namespace pixel {
     
     /*
      * Define spectrum type
      */
+#ifdef USE_INTRINSICS
+    
+#ifdef DOUBLE_PRECISION
+    typedef __m256d spectrum;
+#else
+    typedef __m128 spectrum;
+#endif
+    
+#else
     typedef vector(real, 4) spectrum;
+#endif
     
     /*
      * Define inline functions for spectrum
