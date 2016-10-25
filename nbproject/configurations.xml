@@ -90,6 +90,8 @@
       </compileType>
       <item path="core/camera.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="core/film.cc" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="core/film.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/matrix.cc" ex="false" tool="1" flavor2="0">
@@ -101,6 +103,8 @@
       <item path="core/ray.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/spectrum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="core/tonemapper.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/tonemapper.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -128,6 +132,8 @@
           </linkerLibItems>
         </linkerTool>
       </folder>
+      <item path="film/box_film.cc" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="film/box_film.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cc" ex="false" tool="1" flavor2="0">
@@ -137,6 +143,8 @@
       <item path="tests/vector_test_class.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tests/vector_test_runner.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tonemapper/clamp_tonemapper.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tonemapper/clamp_tonemapper.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -177,6 +185,8 @@
       </compileType>
       <item path="core/camera.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="core/film.cc" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="core/film.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/matrix.cc" ex="false" tool="1" flavor2="0">
@@ -188,6 +198,8 @@
       <item path="core/ray.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/spectrum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="core/tonemapper.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/tonemapper.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -215,6 +227,8 @@
           </linkerLibItems>
         </linkerTool>
       </folder>
+      <item path="film/box_film.cc" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="film/box_film.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cc" ex="false" tool="1" flavor2="0">
@@ -224,6 +238,8 @@
       <item path="tests/vector_test_class.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tests/vector_test_runner.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tonemapper/clamp_tonemapper.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tonemapper/clamp_tonemapper.h" ex="false" tool="3" flavor2="0">
       </item>

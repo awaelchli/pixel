@@ -54,7 +54,7 @@ namespace pixel {
         /*
          * Add sample to the film
          */
-        virtual bool add_sample(const spectrum & s, const real x, const real y) = 0;
+        virtual bool add_sample(const spectrum & s, const double x, const double y) = 0;
         
         /*
          * Get film color at a given coordinate

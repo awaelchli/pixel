@@ -23,38 +23,52 @@
  */
 
 #include <cassert>
+#include <stdlib.h>
 #include "box_film.h"
 
 namespace pixel {
 
     box_filter_film::box_filter_film(const uint32_t w, const uint32_t h)
-    : film(w, h), raster(new spectrum[w * h]), num_samples(new uint32_t[w * h]) {
+    : film(w, h) {
+        raster = reinterpret_cast<spectrum *> (malloc(w * h * sizeof (spectrum)));
+        num_samples = reinterpret_cast<uint32_t *> (malloc(w * h * sizeof (uint32_t)));
     }
 
     box_filter_film::~box_filter_film() {
-        delete [] raster;
-        delete [] num_samples;
+        free(reinterpret_cast<void *> (raster));
+        free(reinterpret_cast<void *> (num_samples));
     }
 
-    bool box_filter_film::add_sample(const spectrum & s, const real x, const real y) {
+    bool box_filter_film::add_sample(const spectrum & s, const double x, const double y) {
         // Check pixel coordinates
-        if (x < static_cast<real>(0) || static_cast<uint32_t>(x) > width ||
-            y < static_cast<real>(0) || static_cast<uint32_t>(y) > height) {
+        if (x < 0.0 || static_cast<uint32_t> (x) > width ||
+                y < 0.0 || static_cast<uint32_t> (y) > height) {
             return false;
         }
         // Find pixel index
-        uint32_t i = static_cast<uint32_t>(x);
-        uint32_t j = static_cast<uint32_t>(y);
+        uint32_t i = static_cast<uint32_t> (x);
+        uint32_t j = static_cast<uint32_t> (y);
         // Add spectrum value
-        raster[j * width + i] += s;
+        __m256d a = _mm256_loadu_pd(raster[j * width + i].e);
+        a = _mm256_add_pd(a, _mm256_load_pd(s.e));
+        _mm256_storeu_pd(raster[j * width + i].e, a);
+
         // Increase number of samples of that pixel
         num_samples[j * width + i]++;
-        
+
         return true;
     }
-    
+
     spectrum box_filter_film::get_spectrum(const uint32_t i, const uint32_t j) const {
-        return (raster[j * width + i] / static_cast<real>(num_samples[j * width + i]));
+        // Load spectrum
+        __m256d a = _mm256_loadu_pd(raster[j * width + i].e);
+        // Divide by number of samples
+        a = _mm256_div_pd(a, _mm256_set1_pd(num_samples[j * width + i]));
+        spectrum result;
+        // Store new spectrum and return
+        _mm256_storeu_pd(result.e, a);
+
+        return result;
     }
 
 

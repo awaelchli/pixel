@@ -35,8 +35,12 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/core/film.o \
 	${OBJECTDIR}/core/matrix.o \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/core/tonemapper.o \
+	${OBJECTDIR}/film/box_film.o \
+	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/tonemapper/clamp_tonemapper.o
 
 # Test Directory
 TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
@@ -74,15 +78,35 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pixel: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pixel ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/core/film.o: core/film.cc
+	${MKDIR} -p ${OBJECTDIR}/core
+	${RM} "$@.d"
+	$(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/film.o core/film.cc
+
 ${OBJECTDIR}/core/matrix.o: core/matrix.cc
 	${MKDIR} -p ${OBJECTDIR}/core
 	${RM} "$@.d"
 	$(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/matrix.o core/matrix.cc
 
+${OBJECTDIR}/core/tonemapper.o: core/tonemapper.cc
+	${MKDIR} -p ${OBJECTDIR}/core
+	${RM} "$@.d"
+	$(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/tonemapper.o core/tonemapper.cc
+
+${OBJECTDIR}/film/box_film.o: film/box_film.cc
+	${MKDIR} -p ${OBJECTDIR}/film
+	${RM} "$@.d"
+	$(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/film/box_film.o film/box_film.cc
+
 ${OBJECTDIR}/main.o: main.cc
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cc
+
+${OBJECTDIR}/tonemapper/clamp_tonemapper.o: tonemapper/clamp_tonemapper.cc
+	${MKDIR} -p ${OBJECTDIR}/tonemapper
+	${RM} "$@.d"
+	$(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tonemapper/clamp_tonemapper.o tonemapper/clamp_tonemapper.cc
 
 # Subprojects
 .build-subprojects:
@@ -108,6 +132,19 @@ ${TESTDIR}/tests/vector_test_runner.o: tests/vector_test_runner.cc
 	$(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -std=c++14 `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/vector_test_runner.o tests/vector_test_runner.cc
 
 
+${OBJECTDIR}/core/film_nomain.o: ${OBJECTDIR}/core/film.o core/film.cc 
+	${MKDIR} -p ${OBJECTDIR}/core
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/core/film.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/film_nomain.o core/film.cc;\
+	else  \
+	    ${CP} ${OBJECTDIR}/core/film.o ${OBJECTDIR}/core/film_nomain.o;\
+	fi
+
 ${OBJECTDIR}/core/matrix_nomain.o: ${OBJECTDIR}/core/matrix.o core/matrix.cc 
 	${MKDIR} -p ${OBJECTDIR}/core
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/core/matrix.o`; \
@@ -121,6 +158,32 @@ ${OBJECTDIR}/core/matrix_nomain.o: ${OBJECTDIR}/core/matrix.o core/matrix.cc
 	    ${CP} ${OBJECTDIR}/core/matrix.o ${OBJECTDIR}/core/matrix_nomain.o;\
 	fi
 
+${OBJECTDIR}/core/tonemapper_nomain.o: ${OBJECTDIR}/core/tonemapper.o core/tonemapper.cc 
+	${MKDIR} -p ${OBJECTDIR}/core
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/core/tonemapper.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/tonemapper_nomain.o core/tonemapper.cc;\
+	else  \
+	    ${CP} ${OBJECTDIR}/core/tonemapper.o ${OBJECTDIR}/core/tonemapper_nomain.o;\
+	fi
+
+${OBJECTDIR}/film/box_film_nomain.o: ${OBJECTDIR}/film/box_film.o film/box_film.cc 
+	${MKDIR} -p ${OBJECTDIR}/film
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/film/box_film.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/film/box_film_nomain.o film/box_film.cc;\
+	else  \
+	    ${CP} ${OBJECTDIR}/film/box_film.o ${OBJECTDIR}/film/box_film_nomain.o;\
+	fi
+
 ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cc 
 	${MKDIR} -p ${OBJECTDIR}
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/main.o`; \
@@ -132,6 +195,19 @@ ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cc
 	    $(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main_nomain.o main.cc;\
 	else  \
 	    ${CP} ${OBJECTDIR}/main.o ${OBJECTDIR}/main_nomain.o;\
+	fi
+
+${OBJECTDIR}/tonemapper/clamp_tonemapper_nomain.o: ${OBJECTDIR}/tonemapper/clamp_tonemapper.o tonemapper/clamp_tonemapper.cc 
+	${MKDIR} -p ${OBJECTDIR}/tonemapper
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/tonemapper/clamp_tonemapper.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tonemapper/clamp_tonemapper_nomain.o tonemapper/clamp_tonemapper.cc;\
+	else  \
+	    ${CP} ${OBJECTDIR}/tonemapper/clamp_tonemapper.o ${OBJECTDIR}/tonemapper/clamp_tonemapper_nomain.o;\
 	fi
 
 # Run Test Targets
