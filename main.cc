@@ -51,14 +51,18 @@ int main(int argc, char** argv) {
     std::cout << std::endl;
     
     // Test matrix
-    pixel::matrix4x4 m( 2, 0, 1, 1,
+    pixel::matrix m( 2, 0, 1, 1,
                         0, 3, 0, 0,
                         0, 1, 2, 0,
                         1, 0, 0, 5);
-    pixel::matrix4x4 m1(2, 0, 0, 0,
+    pixel::matrix m1(2, 0, 0, 0,
                         0, 2, 0, 0,
                         0, 0, 2, 0,
                         0, 0, 0, 2);
+    
+    std::cout << "Vector transform" << std::endl;
+    pixel::print_vec(m1.transform_dir(v1));
+    std::cout << std::endl;
     
     std::cout << "Transpose" << std::endl;
     pixel::print_mat(m.transpose());

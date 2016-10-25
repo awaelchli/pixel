@@ -23,31 +23,43 @@
  */
 
 /* 
- * File:   camera.h
+ * File:   pinhole_camera.h
  * Author: simon
  *
- * Created on October 24, 2016, 12:01 AM
+ * Created on October 26, 2016, 12:29 AM
  */
 
-#ifndef CAMERA_H
-#define CAMERA_H
+#ifndef PINHOLE_CAMERA_H
+#define PINHOLE_CAMERA_H
 
-#include "pixel.h"
+#include "camera.h"
 
 namespace pixel {
     
     /*
-     * Define base camera class
+     * Define pinhole camera class
      */
-    class camera {
+    class pinhole_camera : public camera {
     public:
+        /*
+         * Constructor
+         */
+        pinhole_camera( const vector & eye, const vector & at, const vector & up,
+                        const double fov, const uint32_t width, const uint32_t height);
+       
         /*
          * Create ray for a given couple of pixel coordinates and a sample
          */
-        virtual ray generate_ray(const uint32_t i, const uint32_t j, const double u1, const double u2) const = 0;
+        ray generate_ray(const uint32_t i, const uint32_t j, const double u1, const double u2) const override;
+
+    private:
+        /*
+         * Camera position
+         */
     };
+    
 }
 
 
-#endif /* CAMERA_H */
+#endif /* PINHOLE_CAMERA_H */
 

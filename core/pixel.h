@@ -35,6 +35,7 @@
 #include <iostream>
 #include <cmath>
 #include <string>
+#include <complex>
 
 namespace pixel {
 
@@ -43,12 +44,14 @@ namespace pixel {
      */
     class ray;
     class camera;
+    class pinhole_camera;
     class film;
     class box_filter_film;
     class tone_mapper;
     class clamp_tone_mapper;
     struct vector;
     class matrix;
+    class transform;
     
     /*
      * Declare constant values

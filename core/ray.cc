@@ -22,32 +22,27 @@
  * THE SOFTWARE.
  */
 
-/* 
- * File:   camera.h
- * Author: simon
- *
- * Created on October 24, 2016, 12:01 AM
- */
-
-#ifndef CAMERA_H
-#define CAMERA_H
-
-#include "pixel.h"
+#include "ray.h"
 
 namespace pixel {
+   
+    ray::ray(const vector& o, const vector& d, const double tmin, const double tmax, const uint32_t depth)
+    : o(o), d(d), tmin(tmin), tmax(tmax), depth(depth),
+    inv_d(1.0 / d.e[0], 1.0 / d.e[1], 1.0 / d.e[2], 0.0) {
+    }
+
+    void print_ray(const ray & r) {
+        // Print origin
+        std::cout << "Ray origin: ";
+        print_vec(r.origin());
+        // Print direction
+        std::cout << "Direction: ";
+        print_vec(r.direction());
+        // Print ray maximum and minimum
+        std::cout << "T min: " << r.ray_min() << std::endl;
+        std::cout << "T max: " << r.ray_max() << std::endl;
+        // Print ray depth
+        std::cout << "Depth: " << r.ray_depth() << std::endl;
+    }
     
-    /*
-     * Define base camera class
-     */
-    class camera {
-    public:
-        /*
-         * Create ray for a given couple of pixel coordinates and a sample
-         */
-        virtual ray generate_ray(const uint32_t i, const uint32_t j, const double u1, const double u2) const = 0;
-    };
 }
-
-
-#endif /* CAMERA_H */
-

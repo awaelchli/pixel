@@ -41,6 +41,7 @@ namespace pixel {
      */
     class ray {
     public:
+
         /*
          * Constructor
          */
@@ -138,30 +139,9 @@ namespace pixel {
     };
 
     /*
-     * Ray class implementation
-     */
-    ray::ray(const vector & o, const vector & d,
-            const double tmin, const double tmax, const uint32_t depth)
-    : o(o), d(d), tmin(tmin), tmax(tmax), depth(depth),
-    inv_d(1.0 / d.e[0], 1.0 / d.e[1], 1.0 / d.e[2], 0.0) {
-    }
-
-    /*
      * Print ray to std::cout
      */
-    void print_ray(const ray & r) {
-        // Print origin
-        std::cout << "Ray origin: ";
-        print_vec(r.origin());
-        // Print direction
-        std::cout << "Direction: ";
-        print_vec(r.direction());
-        // Print ray maximum and minimum
-        std::cout << "T min: " << r.ray_min() << std::endl;
-        std::cout << "T max: " << r.ray_max() << std::endl;
-        // Print ray depth
-        std::cout << "Depth: " << r.ray_depth() << std::endl;
-    }
+    void print_ray(const ray & r);
 
 }
 

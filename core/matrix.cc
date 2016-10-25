@@ -28,7 +28,7 @@
 
 namespace pixel {
 
-    matrix4x4::matrix4x4() {
+    matrix::matrix() {
         for (uint32_t i = 0; i < 4; i++) {
             for (uint32_t j = 0; j < 4; j++) {
                 if (i == j) {
@@ -40,7 +40,7 @@ namespace pixel {
         }
     }
 
-    matrix4x4::matrix4x4(const double m00, const double m01, const double m02, const double m03,
+    matrix::matrix(const double m00, const double m01, const double m02, const double m03,
             const double m10, const double m11, const double m12, const double m13,
             const double m20, const double m21, const double m22, const double m23,
             const double m30, const double m31, const double m32, const double m33) {
@@ -50,8 +50,8 @@ namespace pixel {
         data[0][3] = m30;   data[1][3] = m31;   data[2][3] = m32;   data[3][3] = m33;
     }
 
-    matrix4x4 matrix4x4::transpose() const {
-        matrix4x4 transposed;
+    matrix matrix::transpose() const {
+        matrix transposed;
         
         for (uint32_t i = 0; i < 4; i++) {
             for (uint32_t j = 0; j < 4; j++) {
@@ -62,22 +62,22 @@ namespace pixel {
         return transposed;
     }
     
-    double matrix4x4::at(const uint32_t i, const uint32_t j) const {
+    double matrix::at(const uint32_t i, const uint32_t j) const {
         assert(i <= 4);
         assert(j <= 4);
         
         return data[j][i];
     }
 
-    void matrix4x4::set(const uint32_t i, const uint32_t j, const double v) {
+    void matrix::set(const uint32_t i, const uint32_t j, const double v) {
         assert(i <= 4);
         assert(j <= 4);
         
         data[j][i] = v;
     }
     
-    matrix4x4 matrix4x4::operator*(const matrix4x4& m) const {
-        matrix4x4 result;
+    matrix matrix::operator*(const matrix& m) const {
+        matrix result;
         
         // Load the columns of this matrix
         __m256d col_0 = _mm256_load_pd(data[0]);
@@ -129,8 +129,8 @@ namespace pixel {
         return result;
     }
 
-    vector matrix4x4::operator*(const vector & v) const {
-        // Multiply with first vector vector component
+    vector matrix::transform_dir(const vector & v) const {
+        // Multiply with first vector component
         __m256d a = _mm256_mul_pd(_mm256_load_pd(data[0]), _mm256_set1_pd(v.e[0]));
         // Add second colum times second component
         a = _mm256_add_pd(a, _mm256_mul_pd(_mm256_load_pd(data[1]), _mm256_set1_pd(v.e[1])));
@@ -144,8 +144,81 @@ namespace pixel {
         
         return result;
     }
+    
+    vector matrix::transform_normalize_dir(const vector & v) const {
+        // Multiply with first vector component
+        __m256d a = _mm256_mul_pd(_mm256_load_pd(data[0]), _mm256_set1_pd(v.e[0]));
+        // Add second colum times second component
+        a = _mm256_add_pd(a, _mm256_mul_pd(_mm256_load_pd(data[1]), _mm256_set1_pd(v.e[1])));
+        // Add third colum times third component
+        a = _mm256_add_pd(a, _mm256_mul_pd(_mm256_load_pd(data[2]), _mm256_set1_pd(v.e[2])));
+        // Add fourth colum times fourth component
+        a = _mm256_add_pd(a, _mm256_mul_pd(_mm256_load_pd(data[3]), _mm256_set1_pd(v.e[3])));
+        // Multiply with itself
+        __m256d b = _mm256_mul_pd(a, a);
+        // Store result
+        double res[4];
+        _mm256_store_pd(res, b);
+        // Compute length
+        double norm = std::sqrt(res[0] + res[1] + res[2] + res[3]);
+        // Compute result
+        b = _mm256_div_pd(a, _mm256_set1_pd(norm));
+        // Create result
+        vector result;
+        // Set result
+        _mm256_store_pd(result.e, b);
 
-    void print_mat(const matrix4x4 & m) {
+        return result;
+    }
+    
+    vector matrix::transform_normal(const vector & n) const {
+        // TODO CHECK THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
+        // Multiply with first vector component
+        __m256d a = _mm256_mul_pd(_mm256_set_pd(data[0][0], data[1][0], data[2][0], data[3][0]), _mm256_set1_pd(n.e[0]));
+        // Add second colum times second component
+        a = _mm256_add_pd(a, _mm256_mul_pd(_mm256_set_pd(data[0][1], data[1][1], data[2][1], data[3][1]), _mm256_set1_pd(n.e[1])));
+        // Add third colum times third component
+        a = _mm256_add_pd(a, _mm256_mul_pd(_mm256_set_pd(data[0][2], data[1][2], data[2][2], data[3][2]), _mm256_set1_pd(n.e[2])));
+        // Add fourth colum times fourth component
+        a = _mm256_add_pd(a, _mm256_mul_pd(_mm256_set_pd(data[0][3], data[1][3], data[2][3], data[3][3]), _mm256_set1_pd(n.e[3])));
+        
+        vector result;
+        _mm256_store_pd(result.e, a);
+        
+        return result;
+    }
+        
+    vector matrix::transform_normalize_normal(const vector & n) const {
+        // TODO CHECK THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
+        // Multiply with first vector component
+        __m256d a = _mm256_mul_pd(_mm256_set_pd(data[0][0], data[1][0], data[2][0], data[3][0]), _mm256_set1_pd(n.e[0]));
+        // Add second colum times second component
+        a = _mm256_add_pd(a, _mm256_mul_pd(_mm256_set_pd(data[0][1], data[1][1], data[2][1], data[3][1]), _mm256_set1_pd(n.e[1])));
+        // Add third colum times third component
+        a = _mm256_add_pd(a, _mm256_mul_pd(_mm256_set_pd(data[0][2], data[1][2], data[2][2], data[3][2]), _mm256_set1_pd(n.e[2])));
+        // Add fourth colum times fourth component
+        a = _mm256_add_pd(a, _mm256_mul_pd(_mm256_set_pd(data[0][3], data[1][3], data[2][3], data[3][3]), _mm256_set1_pd(n.e[3])));
+        
+         // Multiply with itself
+        __m256d b = _mm256_mul_pd(a, a);
+        // Store result
+        double res[4];
+        _mm256_store_pd(res, b);
+        // Compute length
+        double norm = std::sqrt(res[0] + res[1] + res[2] + res[3]);
+        // Compute result
+        b = _mm256_div_pd(a, _mm256_set1_pd(norm));
+        // Create result
+        vector result;
+        // Set result
+        _mm256_store_pd(result.e, b);
+
+        return result;
+    }
+
+    void print_mat(const matrix & m) {
         std::cout << "[" << m.at(0, 0) << "\t" << m.at(0, 1) << "\t" << m.at(0, 2) << "\t" << m.at(0, 3) << "]" << std::endl; 
         std::cout << "[" << m.at(1, 0) << "\t" << m.at(1, 1) << "\t" << m.at(1, 2) << "\t" << m.at(1, 3) << "]" << std::endl; 
         std::cout << "[" << m.at(2, 0) << "\t" << m.at(2, 1) << "\t" << m.at(2, 2) << "\t" << m.at(2, 3) << "]" << std::endl; 

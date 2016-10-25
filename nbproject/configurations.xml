@@ -4,6 +4,9 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <logicalFolder name="f4" displayName="camera" projectFiles="true">
+        <itemPath>camera/pinhole_camera.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="f2" displayName="core" projectFiles="true">
         <itemPath>core/camera.h</itemPath>
         <itemPath>core/film.h</itemPath>
@@ -12,6 +15,7 @@
         <itemPath>core/ray.h</itemPath>
         <itemPath>core/spectrum.h</itemPath>
         <itemPath>core/tonemapper.h</itemPath>
+        <itemPath>core/transform.h</itemPath>
         <itemPath>core/vector.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="film" projectFiles="true">
@@ -31,7 +35,9 @@
       <logicalFolder name="f1" displayName="core" projectFiles="true">
         <itemPath>core/film.cc</itemPath>
         <itemPath>core/matrix.cc</itemPath>
+        <itemPath>core/ray.cc</itemPath>
         <itemPath>core/tonemapper.cc</itemPath>
+        <itemPath>core/transform.cc</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="film" projectFiles="true">
         <itemPath>film/box_film.cc</itemPath>
@@ -78,6 +84,7 @@
             <pElem>core</pElem>
             <pElem>film</pElem>
             <pElem>tonemapper</pElem>
+            <pElem>camera</pElem>
           </incDir>
           <commandLine>-Wall -Wextra -pedantic -march=native</commandLine>
         </ccTool>
@@ -88,6 +95,8 @@
           </linkerDynSerch>
         </linkerTool>
       </compileType>
+      <item path="camera/pinhole_camera.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="core/camera.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/film.cc" ex="false" tool="1" flavor2="0">
@@ -100,6 +109,8 @@
       </item>
       <item path="core/pixel.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="core/ray.cc" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="core/ray.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/spectrum.h" ex="false" tool="3" flavor2="0">
@@ -107,6 +118,10 @@
       <item path="core/tonemapper.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/tonemapper.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="core/transform.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="core/transform.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/vector.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -167,6 +182,7 @@
             <pElem>core</pElem>
             <pElem>film</pElem>
             <pElem>tonemapper</pElem>
+            <pElem>camera</pElem>
           </incDir>
           <commandLine>-march=native</commandLine>
         </ccTool>
@@ -183,6 +199,8 @@
           </linkerDynSerch>
         </linkerTool>
       </compileType>
+      <item path="camera/pinhole_camera.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="core/camera.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/film.cc" ex="false" tool="1" flavor2="0">
@@ -195,6 +213,8 @@
       </item>
       <item path="core/pixel.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="core/ray.cc" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="core/ray.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/spectrum.h" ex="false" tool="3" flavor2="0">
@@ -202,6 +222,10 @@
       <item path="core/tonemapper.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/tonemapper.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="core/transform.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="core/transform.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/vector.h" ex="false" tool="3" flavor2="0">
       </item>

@@ -23,64 +23,40 @@
  */
 
 /* 
- * File:   matrix.h
+ * File:   transform.h
  * Author: simon
  *
- * Created on October 24, 2016, 12:13 AM
+ * Created on October 25, 2016, 11:09 PM
  */
 
-#ifndef MATRIX_H
-#define MATRIX_H
+#ifndef TRANSFORM_H
+#define TRANSFORM_H
 
-#include "vector.h"
+#include "matrix.h"
 
 namespace pixel {
 
     /*
-     * Define matrix class
+     * Define transform class
      */
-    class matrix {
+    class transform {
     public:
         /*
          * Constructor
          */
-        matrix();
-
-        matrix(const double m00, const double m01, const double m02, const double m03,
-                const double m10, const double m11, const double m12, const double m13,
-                const double m20, const double m21, const double m22, const double m23,
-                const double m30, const double m31, const double m32, const double m33);
+        transform();
+        
+        transform(const matrix & m, const matrix & m_inv);
         
         /*
-         * Transpose matrix
+         * Get inverse transform
          */
-        matrix transpose() const;
+        transform inverse() const;
         
         /*
-         * Direct element access
+         * Composition of two transform
          */
-        inline double operator()(const uint32_t i, const uint32_t j) const {
-            return data[j][i];
-        }
-        
-        inline double & operator()(const uint32_t i, const uint32_t j) {
-            return data[j][i];
-        }
-        
-        /*
-         * Access matrix element with boundaries check
-         */
-        double at(const uint32_t i, const uint32_t j) const;
-        
-        /*
-         * Set element value
-         */
-        void set(const uint32_t i, const uint32_t j, const double v);
-               
-        /*
-         * Multiplication between matrices
-         */
-        matrix operator*(const matrix & m) const;
+        transform operator*(const transform & t) const;
         
         /*
          * Transform direction / point
@@ -102,20 +78,28 @@ namespace pixel {
          */
         vector transform_normalize_normal(const vector & n) const;
         
+        /*
+         * Transform ray
+         */
+        ray operator()(const ray & r) const;
+        
     private:
         /*
-         * Matrix data, stored colum-wise, 128 bytes aligned
+         * Transformation matrix and inverse
          */
-        double data[4][4] __attribute__((aligned(sizeof (double) * 16)));
+        matrix m, m_inv;
     };
     
     /*
-     * Print matrix to std::cout
+     * Function to generate a specific transform
      */
-    void print_mat(const matrix & m);
-    
+    transform translate(const double x, const double y, const double z);
+    transform scale(const double sx, const double sy, const double sz);
+    transform rotate_x(const double deg);
+    transform rotate_y(const double deg);
+    transform rotate_z(const double deg);
+
 }
 
-
-#endif /* MATRIX_H */
+#endif /* TRANSFORM_H */
 
