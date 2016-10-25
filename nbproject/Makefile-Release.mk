@@ -53,8 +53,8 @@ TESTOBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-m64 -march=native
-CXXFLAGS=-m64 -march=native
+CCFLAGS=-m64 -march=native -mavx
+CXXFLAGS=-m64 -march=native -mavx
 
 # Fortran Compiler Flags
 FFLAGS=

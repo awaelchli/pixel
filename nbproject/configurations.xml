@@ -98,6 +98,8 @@
       </item>
       <item path="core/ray.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="core/spectrum.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="core/tonemapper.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/vector.h" ex="false" tool="3" flavor2="0">
@@ -156,7 +158,7 @@
             <pElem>film</pElem>
             <pElem>tonemapper</pElem>
           </incDir>
-          <commandLine>-march=native</commandLine>
+          <commandLine>-march=native -mavx</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>

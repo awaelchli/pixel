@@ -31,6 +31,7 @@
  */
 
 #include <cstdlib>
+#include "spectrum.h"
 //#include "box_film.h"
 //#include "clamp_tonemapper.h"
 //#include "ray.h"

@@ -42,7 +42,6 @@ namespace pixel {
      * Define 4D-vector struct
      */
     struct vector {
-
         /*
          * Constructor
          */

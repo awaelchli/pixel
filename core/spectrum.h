@@ -33,24 +33,34 @@
 #define SPECTRUM_H
 
 #include "pixel.h"
-#include "emmintrin.h"
+#include "immintrin.h"
 
 namespace pixel {
     
     /*
      * Define spectrum type
      */
-#ifdef USE_INTRINSICS
-    
-#ifdef DOUBLE_PRECISION
-    typedef __m256d spectrum;
-#else
-    typedef __m128 spectrum;
-#endif
-    
-#else
-    typedef vector(real, 4) spectrum;
-#endif
+    struct spectrum {
+        /*
+         * Constructor
+         */
+        spectrum() {
+            e[0] = e[1] = e[2] = e[3] = 0.0;
+        }
+        
+        spectrum(const double v) {
+            e[0] = e[1] = e[2] = v;
+        }
+        
+        spectrum(const double r, const double g, const double b) {
+            e[0] = r;   e[1] = g;   e[2] = b;
+        }
+   
+        /*
+         * Spectrum elements, 32 bytes aligned
+         */
+        double e[4] __attribute__((aligned(sizeof (double) * 4)));
+    };
     
     /*
      * Define inline functions for spectrum
@@ -60,30 +70,32 @@ namespace pixel {
      * Print spectrum
      */
     inline void print_spectrum(const spectrum & s) {
-        std::cout << "(" << s[0] << "," << s[1] << "," << s[2] << ")" << std::endl;
+        std::cout << "(" << s.e[0] << "," << s.e[1] << "," << s.e[2] << ")" << std::endl;
     }
     
     /*
      * Check if a color is black
      */
     inline bool is_black(const spectrum & s) {
-        return (s[0] == static_cast<real>(0) &&
-                s[1] == static_cast<real>(0) &&
-                s[2] == static_cast<real>(0));
+        return (s.e[0] == 0.0 && s.e[1] == 0.0 && s.e[2] == 0.0);
     }
     
     /*
      * Power function for spectrum
      */
-    inline spectrum pow(const spectrum & s, const real e) {
+    inline spectrum pow(const spectrum & s, const double e) {
+        // Load color data into __256d
+        __m256d a = _mm256_load_pd(s.e);
+        // Compute pow function
+        a = _mm256_pow_pd(a, _mm256_set_pd(e, e, e, 0));
         return spectrum{std::pow(s[0], e), std::pow(s[1], e), std::pow(s[2], e), 0};
     }
     
     /*
      * Clamp color between two values
      */
-    inline spectrum clamp(const spectrum & s, const real min, const real max) {
-        return spectrum{clamp(s[0], min, max), clamp(s[1], min, max), clamp(s[2], min, max), 0};
+    inline spectrum clamp(const spectrum & s, const double min, const double max) {
+        return spectrum{clamp(s.e[0], min, max), clamp(s.e[1], min, max), clamp(s.e[2], min, max), 0};
     }
 }
 
