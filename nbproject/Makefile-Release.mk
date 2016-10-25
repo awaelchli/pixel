@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/core/matrix.o \
 	${OBJECTDIR}/main.o
 
 # Test Directory
@@ -53,8 +54,8 @@ TESTOBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-m64 -march=native -mavx
-CXXFLAGS=-m64 -march=native -mavx
+CCFLAGS=-m64 -march=native
+CXXFLAGS=-m64 -march=native
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -72,6 +73,11 @@ LDLIBSOPTIONS=-Wl,-rpath,'.' -Wl,-rpath,'.'
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pixel: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pixel ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/core/matrix.o: core/matrix.cc
+	${MKDIR} -p ${OBJECTDIR}/core
+	${RM} "$@.d"
+	$(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/matrix.o core/matrix.cc
 
 ${OBJECTDIR}/main.o: main.cc
 	${MKDIR} -p ${OBJECTDIR}
@@ -101,6 +107,19 @@ ${TESTDIR}/tests/vector_test_runner.o: tests/vector_test_runner.cc
 	${RM} "$@.d"
 	$(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -std=c++14 `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/vector_test_runner.o tests/vector_test_runner.cc
 
+
+${OBJECTDIR}/core/matrix_nomain.o: ${OBJECTDIR}/core/matrix.o core/matrix.cc 
+	${MKDIR} -p ${OBJECTDIR}/core
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/core/matrix.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/matrix_nomain.o core/matrix.cc;\
+	else  \
+	    ${CP} ${OBJECTDIR}/core/matrix.o ${OBJECTDIR}/core/matrix_nomain.o;\
+	fi
 
 ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cc 
 	${MKDIR} -p ${OBJECTDIR}

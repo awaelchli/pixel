@@ -50,10 +50,12 @@ namespace pixel {
         
         spectrum(const double v) {
             e[0] = e[1] = e[2] = v;
+            e[3] = 0.0;
         }
         
         spectrum(const double r, const double g, const double b) {
             e[0] = r;   e[1] = g;   e[2] = b;
+            e[3] = 0.0;
         }
    
         /*
@@ -84,18 +86,18 @@ namespace pixel {
      * Power function for spectrum
      */
     inline spectrum pow(const spectrum & s, const double e) {
-        // Load color data into __256d
-        __m256d a = _mm256_load_pd(s.e);
-        // Compute pow function
-        a = _mm256_pow_pd(a, _mm256_set_pd(e, e, e, 0));
-        return spectrum{std::pow(s[0], e), std::pow(s[1], e), std::pow(s[2], e), 0};
+//        // Load color data into __256d
+//        __m256d a = _mm256_load_pd(s.e);
+//        // Compute pow function
+//        a = _mm256_pow_pd(a, _mm256_set_pd(e, e, e, 0));
+        return spectrum(std::pow(s.e[0], e), std::pow(s.e[1], e), std::pow(s.e[2], e));
     }
     
     /*
      * Clamp color between two values
      */
     inline spectrum clamp(const spectrum & s, const double min, const double max) {
-        return spectrum{clamp(s.e[0], min, max), clamp(s.e[1], min, max), clamp(s.e[2], min, max), 0};
+        return spectrum(clamp(s.e[0], min, max), clamp(s.e[1], min, max), clamp(s.e[2], min, max));
     }
 }
 

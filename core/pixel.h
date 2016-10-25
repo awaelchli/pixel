@@ -41,7 +41,6 @@ namespace pixel {
     /*
      * Forward declare project classes
      */
-    template <typename VEC_T>
     class ray;
     class camera;
     class film;
@@ -49,6 +48,7 @@ namespace pixel {
     class tone_mapper;
     class clamp_tone_mapper;
     struct vector;
+    class matrix;
     
     /*
      * Declare constant values

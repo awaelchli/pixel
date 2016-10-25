@@ -39,89 +39,94 @@ namespace pixel {
     /*
      * Ray class
      */
-    template <typename VEC_T>
     class ray {
     public:
         /*
          * Constructor
          */
-        ray(const VEC_T & o, const VEC_T & d,
-            const real tmin = EPS, const real tmax = INFINITY,
-            const int32_t depth = 0);
+        ray(const vector & o, const vector & d,
+            const double tmin = EPS, const double tmax = INFINITY,
+            const uint32_t depth = 0);
         
         /*
          * Get ray origin
          */
-        inline const VEC_T & origin() const { return o; }
-        inline VEC_T & origin() { return o; }
+        inline const vector & origin() const { return o; }
+        inline vector & origin() { return o; }
         
         /*
          * Get ray direction
          */
-        inline const VEC_T & direction() const { return d; }
-        inline VEC_T & direction() { return d; }
+        inline const vector & direction() const { return d; }
+        inline vector & direction() { return d; }
         
         /*
          * Get ray inverse direction
          */
-        inline const VEC_T & inv_direction() const { return inv_d; }
-        inline VEC_T & inv_direction() { return inv_d; }
+        inline const vector & inv_direction() const { return inv_d; }
+        inline vector & inv_direction() { return inv_d; }
         
         /*
          * Get ray maximum and minimum
          */
-        inline real ray_min() const { return tmin; }
-        inline real ray_max() const { return tmax; }
+        inline double ray_min() const { return tmin; }
+        inline double ray_max() const { return tmax; }
         
         /*
          * Get ray depth
          */
-        inline int32_t ray_depth() const { return depth; }
+        inline uint32_t ray_depth() const { return depth; }
         
         /*
          * Find point at a given parameter
          */
-        inline VEC_T operator()(const real t) const {
-            return (o + t * d);
+        inline vector operator()(const double t) const {
+            // Load origin into __m256d variable
+            __m256d a = _mm256_load_pd(o.e);
+            // Compute ray point
+            a = _mm256_add_pd(a, _mm256_mul_pd(_mm256_load_pd(d.e), _mm256_set1_pd(t)));
+            // Result
+            vector result;
+            _mm256_store_pd(result.e, a);
+            
+            return result;
         }
         
     private:
         /*
          * Ray origin
          */
-        VEC_T o;
+        vector o;
         /*
          * Ray direction
          */
-        VEC_T d;
+        vector d;
         /*
          * Ray maximum and minimum
          */
-        real tmin, tmax;
+        double tmin, tmax;
         /*
          * Ray depth
          */
-        int32_t depth;
+        uint32_t depth;
         /*
          * Ray inverse direction
          */
-        VEC_T inv_d;
+        vector inv_d;
     };
 
     /*
      * Ray class implementation
      */
-    template <typename VEC_T>
-    ray<VEC_T>::ray(const VEC_T & o, const VEC_T & d,
-            const real tmin, const real tmax, const int32_t depth)
+    ray::ray(const vector & o, const vector & d,
+            const double tmin, const double tmax, const uint32_t depth)
     : o(o), d(d), tmin(tmin), tmax(tmax), depth(depth) {
     }
     
     /*
      * Print ray to std::cout
      */
-    template <typename VEC_T>
-    void print_ray(const ray<VEC_T> & r) {
+    void print_ray(const ray & r) {
         // Print origin
         std::cout << "Ray origin: ";
         print_vec(r.origin());

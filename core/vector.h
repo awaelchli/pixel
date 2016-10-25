@@ -125,7 +125,7 @@ namespace pixel {
         // Compute length
         double norm = std::sqrt(res[0] + res[1] + res[2] + res[3]);
         // Compute result
-        b = _mm256_div_pd(a, _mm256_set_pd(norm, norm, norm, norm));
+        b = _mm256_div_pd(a, _mm256_set1_pd(norm));
         // Create result
         vector result;
         // Set result
@@ -145,7 +145,7 @@ namespace pixel {
         // Compute length
         double norm = std::sqrt(res[0] + res[1] + res[2] + res[3]);
         // Compute result
-        b = _mm256_div_pd(a, _mm256_set_pd(norm, norm, norm, norm));
+        b = _mm256_div_pd(a, _mm256_set1_pd(norm));
         // Set result
         _mm256_store_pd(v->e, b);
     }

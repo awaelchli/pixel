@@ -49,10 +49,10 @@ namespace pixel {
          */
         matrix4x4();
 
-        matrix4x4(const real m00, const real m01, const real m02, const real m03,
-                const real m10, const real m11, const real m12, const real m13,
-                const real m20, const real m21, const real m22, const real m23,
-                const real m30, const real m31, const real m32, const real m33);
+        matrix4x4(const double m00, const double m01, const double m02, const double m03,
+                const double m10, const double m11, const double m12, const double m13,
+                const double m20, const double m21, const double m22, const double m23,
+                const double m30, const double m31, const double m32, const double m33);
         
         /*
          * Transpose matrix
@@ -60,14 +60,25 @@ namespace pixel {
         matrix4x4 transpose() const;
         
         /*
+         * Direct element access
+         */
+        inline double operator()(const uint32_t i, const uint32_t j) const {
+            return data[j][i];
+        }
+        
+        inline double & operator()(const uint32_t i, const uint32_t j) {
+            return data[j][i];
+        }
+        
+        /*
          * Access matrix element with boundaries check
          */
-        real at(const uint32_t i, const uint32_t j) const;
+        double at(const uint32_t i, const uint32_t j) const;
         
         /*
          * Set element value
          */
-        void set(const uint32_t i, const uint32_t j, const real v);
+        void set(const uint32_t i, const uint32_t j, const double v);
                
         /*
          * Multiplication between matrices
@@ -77,14 +88,13 @@ namespace pixel {
         /*
          * Multiply matrix with a vector
          */
-        vec4 operator*(const vec4 & v) const;
+        vector operator*(const vector & v) const;
         
     private:
         /*
-         * Matrix rows and columns
+         * Matrix data, stored colum-wise
          */
-        vec4 rows[4];
-        vec4 cols[4];
+        double data[4][4];
     };
     
     /*

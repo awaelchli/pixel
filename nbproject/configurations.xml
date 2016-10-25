@@ -92,6 +92,8 @@
       </item>
       <item path="core/film.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="core/matrix.cc" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="core/matrix.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/pixel.h" ex="false" tool="3" flavor2="0">
@@ -158,7 +160,7 @@
             <pElem>film</pElem>
             <pElem>tonemapper</pElem>
           </incDir>
-          <commandLine>-march=native -mavx</commandLine>
+          <commandLine>-march=native</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -176,6 +178,8 @@
       <item path="core/camera.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/film.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="core/matrix.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/matrix.h" ex="false" tool="3" flavor2="0">
       </item>
