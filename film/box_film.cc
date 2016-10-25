@@ -23,7 +23,7 @@
  */
 
 #include <cassert>
-#include <stdlib.h>
+#include <cstdlib>
 #include "box_film.h"
 
 namespace pixel {
