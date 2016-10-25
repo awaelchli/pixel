@@ -45,38 +45,60 @@ namespace pixel {
          * Constructor
          */
         ray(const vector & o, const vector & d,
-            const double tmin = EPS, const double tmax = INFINITY,
-            const uint32_t depth = 0);
-        
+                const double tmin = EPS, const double tmax = INFINITY,
+                const uint32_t depth = 0);
+
         /*
          * Get ray origin
          */
-        inline const vector & origin() const { return o; }
-        inline vector & origin() { return o; }
-        
+        inline const vector & origin() const {
+            return o;
+        }
+
+        inline vector & origin() {
+            return o;
+        }
+
         /*
          * Get ray direction
          */
-        inline const vector & direction() const { return d; }
-        inline vector & direction() { return d; }
-        
+        inline const vector & direction() const {
+            return d;
+        }
+
+        inline vector & direction() {
+            return d;
+        }
+
         /*
          * Get ray inverse direction
          */
-        inline const vector & inv_direction() const { return inv_d; }
-        inline vector & inv_direction() { return inv_d; }
-        
+        inline const vector & inv_direction() const {
+            return inv_d;
+        }
+
+        inline vector & inv_direction() {
+            return inv_d;
+        }
+
         /*
          * Get ray maximum and minimum
          */
-        inline double ray_min() const { return tmin; }
-        inline double ray_max() const { return tmax; }
-        
+        inline double ray_min() const {
+            return tmin;
+        }
+
+        inline double ray_max() const {
+            return tmax;
+        }
+
         /*
          * Get ray depth
          */
-        inline uint32_t ray_depth() const { return depth; }
-        
+        inline uint32_t ray_depth() const {
+            return depth;
+        }
+
         /*
          * Find point at a given parameter
          */
@@ -88,10 +110,10 @@ namespace pixel {
             // Result
             vector result;
             _mm256_store_pd(result.e, a);
-            
+
             return result;
         }
-        
+
     private:
         /*
          * Ray origin
@@ -120,9 +142,10 @@ namespace pixel {
      */
     ray::ray(const vector & o, const vector & d,
             const double tmin, const double tmax, const uint32_t depth)
-    : o(o), d(d), tmin(tmin), tmax(tmax), depth(depth) {
+    : o(o), d(d), tmin(tmin), tmax(tmax), depth(depth),
+    inv_d(1.0 / d.e[0], 1.0 / d.e[1], 1.0 / d.e[2], 0.0) {
     }
-    
+
     /*
      * Print ray to std::cout
      */
