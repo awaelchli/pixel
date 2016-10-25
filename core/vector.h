@@ -81,11 +81,11 @@ namespace pixel {
         // Load into two registers the two vector data
         __m256d a = _mm256_load_pd(v1.e);
         __m256d b = _mm256_load_pd(v2.e);
-        // Multiply the two together
-        __m256d c = _mm256_mul_pd(a, b);
+        // Multiply the two together and store result in a
+        a = _mm256_mul_pd(a, b);
         // Store result
         double res[4];
-        _mm256_store_pd(res, c);
+        _mm256_store_pd(res, a);
 
         // Return sum over components
         return (res[0] + res[1] + res[2] + res[3]);
@@ -125,12 +125,12 @@ namespace pixel {
         _mm256_store_pd(res, b);
         // Compute length
         double norm = std::sqrt(res[0] + res[1] + res[2] + res[3]);
+        // Compute result
+        b = _mm256_div_pd(a, _mm256_set_pd(norm, norm, norm, norm));
         // Create result
         vector result;
-        // Compute result
-        __m256d c = _mm256_div_pd(a, _mm256_set_pd(norm, norm, norm, norm));
         // Set result
-        _mm256_store_pd(result.e, c);
+        _mm256_store_pd(result.e, b);
 
         return result;
     }
@@ -146,9 +146,9 @@ namespace pixel {
         // Compute length
         double norm = std::sqrt(res[0] + res[1] + res[2] + res[3]);
         // Compute result
-        __m256d c = _mm256_div_pd(a, _mm256_set_pd(norm, norm, norm, norm));
+        b = _mm256_div_pd(a, _mm256_set_pd(norm, norm, norm, norm));
         // Set result
-        _mm256_store_pd(v->e, c);
+        _mm256_store_pd(v->e, b);
     }
 
     /*

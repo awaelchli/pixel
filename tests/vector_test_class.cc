@@ -48,35 +48,35 @@ void vector_test_class::tearDown() {
 }
 
 void vector_test_class::testDot() {
-    const pixel::vector v1(2.0, 2.0, 2.0, 2.0);
-    const pixel::vector v2(-3.0, -3.0, -3.0, -3.0);
+    const pixel::vector v1(1.0, 2.0, 3.0, 4.0);
+    const pixel::vector v2(-1.0, -2.0, -3.0, -4.0);
     double result = dot(v1, v2);
-    if (std::abs(result + 24.0) > pixel::EPS) {
+    if (std::abs(result + 30.0) > pixel::EPS) {
         CPPUNIT_ASSERT(false);
     }
 }
 
 void vector_test_class::testAbs_dot() {
-    const pixel::vector v1(2.0, 2.0, 2.0, 2.0);
-    const pixel::vector v2(-3.0, -3.0, -3.0, -3.0);
+    const pixel::vector v1(1.0, 2.0, 3.0, 4.0);
+    const pixel::vector v2(-1.0, -2.0, -3.0, -4.0);
     double result = abs_dot(v1, v2);
-    if (std::abs(result - 24.0) > pixel::EPS) {
+    if (std::abs(result - 30.0) > pixel::EPS) {
         CPPUNIT_ASSERT(false);
     }
 }
 
 void vector_test_class::testSqrd_length() {
-    const pixel::vector v(2.0, 2.0, 2.0, 2.0);
+    const pixel::vector v(1.0, 2.0, 3.0, 4.0);
     double result = pixel::sqrd_length(v);
-    if (std::abs(result - 16.0) > pixel::EPS) {
+    if (std::abs(result - 30.0) > pixel::EPS) {
         CPPUNIT_ASSERT(false);
     }
 }
 
 void vector_test_class::testLength() {
-    const pixel::vector v(2.0, 2.0, 2.0, 2.0);
+    const pixel::vector v(1.0, 2.0, 3.0, 4.0);
     double result = length(v);
-    if (std::abs(result - 4.0) > pixel::EPS) {
+    if (std::abs(result - std::sqrt(30.0)) > pixel::EPS) {
         CPPUNIT_ASSERT(false);
     }
 }
@@ -84,7 +84,7 @@ void vector_test_class::testLength() {
 void vector_test_class::testNormalize() {
     const pixel::vector v(1.0, 2.0, 3.0, 4.0);
     pixel::vector result = normalize(v);
-    if (pixel::length(result) == 1.0) {
+    if (std::abs(pixel::length(result) - 1.0) > pixel::EPS) {
         CPPUNIT_ASSERT(false);
     }
 }
