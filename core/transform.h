@@ -32,7 +32,7 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 
-#include "sse_matrix.h"
+#include "pixel.h"
 
 namespace pixel {
 

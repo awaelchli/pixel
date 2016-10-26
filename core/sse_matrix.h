@@ -138,7 +138,7 @@ namespace pixel {
 
     // Sum
 
-    sse_matrix operator+(const sse_matrix & m1, const sse_matrix & m2) {
+    inline sse_matrix operator+(const sse_matrix & m1, const sse_matrix & m2) {
         sse_matrix result;
         // Sum columns
         result.xmm[0] = _mm_add_ps(m1.xmm[0], m2.xmm[0]);
@@ -151,7 +151,7 @@ namespace pixel {
 
     // Subtraction
 
-    sse_matrix operator-(const sse_matrix & m1, const sse_matrix & m2) {
+    inline sse_matrix operator-(const sse_matrix & m1, const sse_matrix & m2) {
         sse_matrix result;
         // Sum columns
         result.xmm[0] = _mm_sub_ps(m1.xmm[0], m2.xmm[0]);
@@ -164,7 +164,7 @@ namespace pixel {
 
     // Multiplication with another matrix
 
-    sse_matrix operator*(const sse_matrix & m1, const sse_matrix & m2) {
+    inline sse_matrix operator*(const sse_matrix & m1, const sse_matrix & m2) {
         sse_matrix result;
         // Compute first column
         result.xmm[0] = _mm_mul_ps(_mm_set1_ps(m2.data[0][0]), m1.xmm[0]);
@@ -195,7 +195,7 @@ namespace pixel {
 
     // Multiplication with a vector
 
-    sse_vector operator*(const sse_matrix & m, const sse_vector & v) {
+    inline sse_vector operator*(const sse_matrix & m, const sse_vector & v) {
         sse_vector result;
 
         // Compute first column
@@ -209,81 +209,11 @@ namespace pixel {
 
     // Compute matrix inverse
 
-    sse_matrix inverse(const sse_matrix & m) {
-        // Matrix inversion based on the Gauss method
-        int indxc[4], indxr[4];
-        int ipiv[4] = {0, 0, 0, 0};
-        float minv[4][4];
-        memcpy(minv, m.data, 16 * sizeof (float));
-        for (size_t i = 0; i < 4; i++) {
-            int irow = 0, icol = 0;
-            float big = 0.f;
-            // Choose pivot
-            for (size_t k = 0; k < 4; k++) {
-                if (ipiv[k] != 1) {
-                    for (size_t j = 0; j < 4; j++) {
-                        if (ipiv[j] == 0) {
-                            if (std::abs(minv[k][j]) >= big) {
-                                big = std::abs(minv[k][j]);
-                                irow = j;
-                                icol = k;
-                            }
-                        } else if (ipiv[k] > 1) {
-                            std::cerr << "Singular matrix given to inversion procedure" << std::endl;
-                            exit(EXIT_FAILURE);
-                        }
-                    }
-                }
-            }
-            ++ipiv[icol];
-            // Swap rows and col for pivot
-            if (irow != icol) {
-                for (size_t k = 0; k < 4; k++) {
-                    std::swap(minv[k][irow], minv[k][icol]);
-                }
-            }
-            indxr[i] = irow;
-            indxc[i] = icol;
-            if (minv[icol][icol] == 0.f) {
-                std::cerr << "Singular matrix given to inversion procedure" << std::endl;
-                exit(EXIT_FAILURE);
-            }
-            // Scale
-            float piv_inv = 1.f / minv[icol][icol];
-            minv[icol][icol] = 1.f;
-            for (size_t j = 0; j < 4; j++) {
-                minv[j][icol] *= piv_inv;
-            }
-            // Subtract this row from others to zero out their columns
-            for (int j = 0; j < 4; j++) {
-                if (j != icol) {
-                    float save = minv[icol][j];
-                    minv[icol][j] = 0.f;
-                    for (size_t k = 0; k < 4; k++) {
-                        minv[k][j] -= minv[k][icol] * save;
-                    }
-                }
-            }
-        }
-
-        // Swap columns to reflect permutation
-        for (int j = 3; j >= 0; j--) {
-            if (indxr[j] != indxc[j]) {
-                for (size_t k = 0; k < 4; k++) {
-                    std::swap(minv[indxr[j]][k], minv[indxc[j]][k]);
-                }
-            }
-        }
-
-        return sse_matrix(minv[0][0], minv[1][0], minv[2][0], minv[3][0],
-                minv[0][1], minv[1][1], minv[2][1], minv[3][1],
-                minv[0][2], minv[1][2], minv[2][2], minv[3][2],
-                minv[0][3], minv[1][3], minv[2][3], minv[3][3]);
-    }
+    sse_matrix inverse(const sse_matrix & m);
 
     // Transpose matrix
 
-    sse_matrix transpose(const sse_matrix & m) {
+    inline sse_matrix transpose(const sse_matrix & m) {
         sse_matrix result;
 
         for (size_t i = 0; i < 4; i++) {
@@ -297,19 +227,7 @@ namespace pixel {
 
     // Print matrix
 
-    void print_sse_matrix(const sse_matrix & m) {
-        for (size_t i = 0; i < 4; i++) {
-            std::cout << "[";
-            for (size_t j = 0; j < 4; j++) {
-                std::cout << m.data[j][i];
-                if (j < 3) {
-                    std::cout << "\t";
-                }
-            }
-            std::cout << "]" << std::endl;
-        }
-        std::cout << std::endl;
-    }
+    void print_sse_matrix(const sse_matrix & m);
 
 }
 

@@ -23,7 +23,7 @@
  */
 
 #include "transform.h"
-#include "ray.h"
+#include "sse_matrix.h"
 
 namespace pixel {
 

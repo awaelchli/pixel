@@ -35,8 +35,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/camera/pinhole_camera.o \
 	${OBJECTDIR}/core/film.o \
 	${OBJECTDIR}/core/ray.o \
+	${OBJECTDIR}/core/sse_matrix.o \
 	${OBJECTDIR}/core/tonemapper.o \
 	${OBJECTDIR}/core/transform.o \
 	${OBJECTDIR}/film/box_film.o \
@@ -79,6 +81,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pixel: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pixel ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/camera/pinhole_camera.o: camera/pinhole_camera.cpp
+	${MKDIR} -p ${OBJECTDIR}/camera
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -O2 -Wall -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/camera/pinhole_camera.o camera/pinhole_camera.cpp
+
 ${OBJECTDIR}/core/film.o: core/film.cc
 	${MKDIR} -p ${OBJECTDIR}/core
 	${RM} "$@.d"
@@ -88,6 +95,11 @@ ${OBJECTDIR}/core/ray.o: core/ray.cc
 	${MKDIR} -p ${OBJECTDIR}/core
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -O2 -Wall -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/ray.o core/ray.cc
+
+${OBJECTDIR}/core/sse_matrix.o: core/sse_matrix.cc
+	${MKDIR} -p ${OBJECTDIR}/core
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -O2 -Wall -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/sse_matrix.o core/sse_matrix.cc
 
 ${OBJECTDIR}/core/tonemapper.o: core/tonemapper.cc
 	${MKDIR} -p ${OBJECTDIR}/core
@@ -138,6 +150,19 @@ ${TESTDIR}/tests/vector_test_runner.o: tests/vector_test_runner.cc
 	$(COMPILE.cc) -g -O2 -Wall -Icore -Ifilm -Itonemapper -Icamera -std=c++14 `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/vector_test_runner.o tests/vector_test_runner.cc
 
 
+${OBJECTDIR}/camera/pinhole_camera_nomain.o: ${OBJECTDIR}/camera/pinhole_camera.o camera/pinhole_camera.cpp 
+	${MKDIR} -p ${OBJECTDIR}/camera
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/camera/pinhole_camera.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -O2 -Wall -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/camera/pinhole_camera_nomain.o camera/pinhole_camera.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/camera/pinhole_camera.o ${OBJECTDIR}/camera/pinhole_camera_nomain.o;\
+	fi
+
 ${OBJECTDIR}/core/film_nomain.o: ${OBJECTDIR}/core/film.o core/film.cc 
 	${MKDIR} -p ${OBJECTDIR}/core
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/core/film.o`; \
@@ -162,6 +187,19 @@ ${OBJECTDIR}/core/ray_nomain.o: ${OBJECTDIR}/core/ray.o core/ray.cc
 	    $(COMPILE.cc) -g -O2 -Wall -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/ray_nomain.o core/ray.cc;\
 	else  \
 	    ${CP} ${OBJECTDIR}/core/ray.o ${OBJECTDIR}/core/ray_nomain.o;\
+	fi
+
+${OBJECTDIR}/core/sse_matrix_nomain.o: ${OBJECTDIR}/core/sse_matrix.o core/sse_matrix.cc 
+	${MKDIR} -p ${OBJECTDIR}/core
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/core/sse_matrix.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -O2 -Wall -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/sse_matrix_nomain.o core/sse_matrix.cc;\
+	else  \
+	    ${CP} ${OBJECTDIR}/core/sse_matrix.o ${OBJECTDIR}/core/sse_matrix_nomain.o;\
 	fi
 
 ${OBJECTDIR}/core/tonemapper_nomain.o: ${OBJECTDIR}/core/tonemapper.o core/tonemapper.cc 

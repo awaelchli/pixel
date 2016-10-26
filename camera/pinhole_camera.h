@@ -33,6 +33,7 @@
 #define PINHOLE_CAMERA_H
 
 #include "camera.h"
+#include "sse_matrix.h"
 
 namespace pixel {
 
@@ -45,11 +46,17 @@ namespace pixel {
                 const float fov, const uint32_t width, const uint32_t height);
 
         // Create ray for a given couple of pixel coordinates and a sample
-        ray generate_ray(const uint32_t i, const uint32_t j, const double u1, const double u2) const override;
+        ray generate_ray(const uint32_t i, const uint32_t j, const float u1, const float u2) const override;
 
     private:
         //Camera position
-
+        sse_vector eye_world;
+        // Transformation matrix
+        sse_matrix view_matrix;
+        // Field of view
+        float bottom, top, left, right;
+        // Image size
+        uint32_t width, height;
     };
 
 }
