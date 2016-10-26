@@ -35,24 +35,24 @@
 #include "film.h"
 
 namespace pixel {
-    
+
     /*
      * Declare base tone mapper class
      */
     class tone_mapper {
-    public:        
+    public:
         /*
          * Virtual destructor
          */
         virtual ~tone_mapper();
-        
+
         /*
          * Process image and create output .ppm image
          */
         virtual void process(const std::string & file_name, const film & f) const = 0;
     };
-    
-    
+
+
 }
 
 #endif /* TONEMAPPER_H */

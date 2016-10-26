@@ -25,7 +25,7 @@
 #include "ray.h"
 
 namespace pixel {
-   
+
     ray::ray(const sse_vector & o, const sse_vector & d, const float tmin, const float tmax, const uint32_t depth)
     : o(o), d(d), tmin(tmin), tmax(tmax), depth(depth),
     inv_d(1.f / d.x, 1.f / d.y, 1.f / d.z, 0.f) {
@@ -44,5 +44,5 @@ namespace pixel {
         // Print ray depth
         std::cout << "Depth: " << r.ray_depth() << std::endl;
     }
-    
+
 }

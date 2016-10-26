@@ -50,70 +50,70 @@ namespace pixel {
                 const double m10, const double m11, const double m12, const double m13,
                 const double m20, const double m21, const double m22, const double m23,
                 const double m30, const double m31, const double m32, const double m33);
-        
+
         /*
          * Transpose matrix
          */
         matrix transpose() const;
-        
+
         /*
          * Direct element access
          */
         inline double operator()(const uint32_t i, const uint32_t j) const {
             return data[j][i];
         }
-        
+
         inline double & operator()(const uint32_t i, const uint32_t j) {
             return data[j][i];
         }
-        
+
         /*
          * Access matrix element with boundaries check
          */
         double at(const uint32_t i, const uint32_t j) const;
-        
+
         /*
          * Set element value
          */
         void set(const uint32_t i, const uint32_t j, const double v);
-               
+
         /*
          * Multiplication between matrices
          */
         matrix operator*(const matrix & m) const;
-        
+
         /*
          * Transform direction / point
          */
         vector transform_dir(const vector & v) const;
-        
+
         /*
          * Transform direction and normalize it
          */
         vector transform_normalize_dir(const vector & v) const;
-        
+
         /*
          * Transform normal
          */
         vector transform_normal(const vector & n) const;
-        
+
         /*
          * Transform normal and normalize it
          */
         vector transform_normalize_normal(const vector & n) const;
-        
+
     private:
         /*
          * Matrix data, stored colum-wise, 128 bytes aligned
          */
         double data[4][4] __attribute__((aligned(sizeof (double) * 16)));
     };
-    
+
     /*
      * Print matrix to std::cout
      */
     void print_mat(const matrix & m);
-    
+
 }
 
 

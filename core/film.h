@@ -35,45 +35,32 @@
 #include "sse_spectrum.h"
 
 namespace pixel {
- 
-    /*
-     * Define base film class
-     */
+
+    // Define base film class
+
     class film {
     public:
-        /*
-         * Constructor
-         */
+        // Constructor
         film(const uint32_t w, const uint32_t h);
-        
-        /*
-         * Destructor
-         */
+
+        // Destructor
         virtual ~film();
-        
-        /*
-         * Add sample to the film
-         */
+
+        // Add sample to the film
         virtual bool add_sample(const sse_spectrum & s, const float x, const float y) = 0;
-        
-        /*
-         * Get film color at a given coordinate
-         */
+
+        // Get film color at a given coordinate
         virtual sse_spectrum get_spectrum(const uint32_t i, const uint32_t j) const = 0;
-        
-        /*
-         * Get width and height of the film
-         */
+
+        // Get width and height of the film
         uint32_t get_width() const;
         uint32_t get_height() const;
-        
+
     protected:
-        /*
-         * Film dimension
-         */
+        // Film dimension
         const uint32_t width, height;
     };
-    
+
 }
 
 #endif /* FILM_H */

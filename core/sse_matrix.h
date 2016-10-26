@@ -214,7 +214,7 @@ namespace pixel {
         int indxc[4], indxr[4];
         int ipiv[4] = {0, 0, 0, 0};
         float minv[4][4];
-        memcpy(minv, m.data, 16 * sizeof(float));
+        memcpy(minv, m.data, 16 * sizeof (float));
         for (size_t i = 0; i < 4; i++) {
             int irow = 0, icol = 0;
             float big = 0.f;
@@ -275,10 +275,10 @@ namespace pixel {
             }
         }
 
-        return sse_matrix(  minv[0][0], minv[1][0], minv[2][0], minv[3][0],
-                            minv[0][1], minv[1][1], minv[2][1], minv[3][1],
-                            minv[0][2], minv[1][2], minv[2][2], minv[3][2],
-                            minv[0][3], minv[1][3], minv[2][3], minv[3][3]);
+        return sse_matrix(minv[0][0], minv[1][0], minv[2][0], minv[3][0],
+                minv[0][1], minv[1][1], minv[2][1], minv[3][1],
+                minv[0][2], minv[1][2], minv[2][2], minv[3][2],
+                minv[0][3], minv[1][3], minv[2][3], minv[3][3]);
     }
 
     // Transpose matrix

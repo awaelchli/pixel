@@ -39,9 +39,7 @@
 
 namespace pixel {
 
-    /*
-     * Forward declare project classes
-     */
+    // Forward declare project classes
     class ray;
     class camera;
     class pinhole_camera;
@@ -53,10 +51,8 @@ namespace pixel {
     class sse_matrix;
     class sse_spectrum;
     class transform;
-    
-    /*
-     * Declare constant values
-     */
+
+    // Declare constant values
     static double EPS = 10e-5;
     static double PI = 3.14159265;
     static double TWO_PI = 6.28318530718;
@@ -64,38 +60,34 @@ namespace pixel {
     static double ONE_OVER_2_PI = 0.159154943092;
     static double ONE_OVER_4_PI = 0.07957747154;
 
-    /*
-     * Maximum and minium functions
-     */
+    // Maximum and minium functions
+
     template <typename T>
     inline T fmin(const T a, const T b) {
         return (a < b ? a : b);
     }
-    
+
     template <typename T>
     inline T fmax(const T a, const T b) {
         return (a > b ? a : b);
     }
 
-    /*
-     *  Clamp value
-     */
+    // Clamp value
+
     template <typename T>
     inline T clamp(const T val, const T min, const T max) {
         return fmin(fmax(val, min), max);
     }
 
-    /*
-     * Degree to radians
-     */
+    // Degree to radians
+
     template <typename T>
     inline T deg_to_rad(const T deg) {
         return ((PI / 180.0) * deg);
     }
 
-    /*
-     * Radians to degree
-     */
+    // Radians to degree
+
     template <typename T>
     inline T rad_to_deg(const T rad) {
         return ((180.0 / PI) * rad);

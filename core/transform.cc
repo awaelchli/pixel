@@ -27,97 +27,60 @@
 
 namespace pixel {
 
-    transform::transform()
-    : m(), m_inv() {}
-
-    transform::transform(const matrix & m, const matrix & m_inv)
-    : m(m), m_inv(m_inv) {}
-
-    transform transform::inverse() const {
-        return transform(m_inv, m);
+    sse_matrix translate(const float x, const float y, const float z) {
+        return sse_matrix(1.f, 0.f, 0.f, x,
+                0.f, 1.f, 0.f, y,
+                0.f, 0.f, 1.f, z,
+                0.f, 0.f, 0.f, 1.f);
     }
 
-    transform transform::operator*(const transform & t) const {
-        return transform(m * t.m, t.m_inv * m_inv);
+    sse_matrix scale(const float sx, const float sy, const float sz) {
+        return sse_matrix(sx, 0.f, 0.f, 0.f,
+                0.f, sy, 0.f, 0.f,
+                0.f, 0.f, sz, 0.f,
+                0.f, 0.f, 0.f, 1.f);
     }
 
-    vector transform::transform_dir(const vector & v) const {
-        return m.transform_dir(v);
+    sse_matrix rotate_x(const float deg) {
+        float s = std::sin(deg_to_rad(deg));
+        float c = std::cos(deg_to_rad(deg));
+
+        return sse_matrix(1.f, 0.f, 0.f, 0.f,
+                0.f, c, -s, 0.f,
+                0.f, s, c, 0.f,
+                0.f, 0.f, 0.f, 1.f);
     }
 
-    vector transform::transform_normalize_dir(const vector & v) const {
-        return m.transform_normalize_dir(v);
+    sse_matrix rotate_y(const float deg) {
+        float s = std::sin(deg_to_rad(deg));
+        float c = std::cos(deg_to_rad(deg));
+
+        return sse_matrix(c, 0.f, s, 0.f,
+                0.f, 1.f, 0.f, 0.f,
+                -s, 0.f, c, 0.f,
+                0.f, 0.f, 0.f, 1.f);
     }
 
-    vector transform::transform_normal(const vector & n) const {
-        return m_inv.transform_normal(n);
+    sse_matrix rotate_z(const float deg) {
+        float s = std::sin(deg_to_rad(deg));
+        float c = std::cos(deg_to_rad(deg));
+
+        return sse_matrix(c, -s, 0.f, 0.f,
+                s, c, 0.f, 0.f,
+                0.f, 0.f, 1.f, 0.f,
+                0.f, 0.f, 0.f, 1.f);
     }
 
-    vector transform::transform_normalize_normal(const vector & n) const {
-        return m_inv.transform_normalize_normal(n);
-    }
+    sse_matrix look_at(const sse_vector & eye, const sse_vector & at, const sse_vector & up) {
+        // Compute local base
+        sse_vector v = normalize(at - eye);
+        sse_vector u = normalize(cross_product(v, up));
+        sse_vector w = cross_product(u, v);
 
-    ray transform::operator()(const ray & r) const {
-        return ray(m.transform_dir(r.origin()), m.transform_dir(r.direction()), r.ray_min(), r.ray_max(), r.ray_depth());
-    }
-
-    transform translate(const double x, const double y, const double z) {
-        matrix m(1.0, 0.0, 0.0, x,
-                    0.0, 1.0, 0.0, y,
-                    0.0, 0.0, 1.0, z,
-                    0.0, 0.0, 0.0, 1.0);
-        matrix m_inv(1.0, 0.0, 0.0, x,
-                        0.0, 1.0, 0.0, y,
-                        0.0, 0.0, 1.0, z,
-                        0.0, 0.0, 0.0, 1.0);
-        
-        return transform(m, m_inv);
-    }
-    
-    transform scale(const double sx, const double sy, const double sz) {
-        matrix m(sx, 0.0, 0.0, 0.0,
-                    0.0, sy, 0.0, 0.0,
-                    0.0, 0.0, sz, 0.0,
-                    0.0, 0.0, 0.0, 1.0);
-        matrix m_inv(1.0 / sx, 0.0, 0.0, 0.0,
-                        0.0, 1.0 / sy, 0.0, 0.0,
-                        0.0, 0.0, 1.0 / sz, 0.0,
-                        0.0, 0.0, 0.0, 1);
-        
-        return transform(m, m_inv);
-    }
-    
-    transform rotate_x(const double deg) {
-        double s = std::sin(deg_to_rad(deg));
-        double c = std::cos(deg_to_rad(deg));
-        matrix m(1.0, 0.0, 0.0, 0.0,
-                    0.0, c, -s, 0.0,
-                    0.0, s, c, 0.0,
-                    0.0, 0.0, 0.0, 1.0);
-        
-        return transform(m, m.transpose());
-    }
-    
-    transform rotate_y(const double deg) {
-        double s = std::sin(deg_to_rad(deg));
-        double c = std::cos(deg_to_rad(deg));
-        matrix m(c, 0.0, s, 0.0,
-                    0.0, 1.0, 0.0, 0.0,
-                    -s, 0.0, c, 0.0,
-                    0.0, 0.0, 0.0, 1.0);
-        
-        return transform(m, m.transpose());
-    }
-    
-    transform rotate_z(const double deg) {
-        double s = std::sin(deg_to_rad(deg));
-        double c = std::cos(deg_to_rad(deg));
-        matrix m(c, -s, 0.0, 0.0,
-                    s, c, 0.0, 0.0,
-                    0.0, 0.0, 1.0, 0.0,
-                    0.0, 0.0, 0.0, 1.0);
-        
-        return transform(m, m.transpose());
+        return sse_matrix(u.x, v.x, w.x, eye.x,
+                u.y, v.y, w.y, eye.y,
+                u.z, v.z, w.z, eye.z,
+                0.f, 0.f, 0.f, 1.f);
     }
 
 }

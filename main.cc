@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
     pixel::film * f = new pixel::box_filter_film(256, 256);
     for (uint32_t i = 0; i < 256; i++) {
         for (uint32_t j = 0; j < 256; j++) {
-            if (!f->add_sample(pixel::sse_spectrum(i / 255.0, 0.f, 0.f), i, j)) {
+            if (!f->add_sample(pixel::sse_spectrum(1.f, 0.f, 0.f), i, j)) {
                 std::cout << "Failed attempt to add spectrum to film" << std::endl;
                 std::cout << i << " " << j << std::endl;
                 exit(EXIT_FAILURE);

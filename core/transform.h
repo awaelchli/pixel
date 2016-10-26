@@ -32,72 +32,17 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 
-#include "matrix.h"
+#include "sse_matrix.h"
 
 namespace pixel {
 
-    /*
-     * Define transform class
-     */
-    class transform {
-    public:
-        /*
-         * Constructor
-         */
-        transform();
-        
-        transform(const matrix & m, const matrix & m_inv);
-        
-        /*
-         * Get inverse transform
-         */
-        transform inverse() const;
-        
-        /*
-         * Composition of two transform
-         */
-        transform operator*(const transform & t) const;
-        
-        /*
-         * Transform direction / point
-         */
-        vector transform_dir(const vector & v) const;
-        
-        /*
-         * Transform direction and normalize it
-         */
-        vector transform_normalize_dir(const vector & v) const;
-        
-        /*
-         * Transform normal
-         */
-        vector transform_normal(const vector & n) const;
-        
-        /*
-         * Transform normal and normalize it
-         */
-        vector transform_normalize_normal(const vector & n) const;
-        
-        /*
-         * Transform ray
-         */
-        ray operator()(const ray & r) const;
-        
-    private:
-        /*
-         * Transformation matrix and inverse
-         */
-        matrix m, m_inv;
-    };
-    
-    /*
-     * Function to generate a specific transform
-     */
-    transform translate(const double x, const double y, const double z);
-    transform scale(const double sx, const double sy, const double sz);
-    transform rotate_x(const double deg);
-    transform rotate_y(const double deg);
-    transform rotate_z(const double deg);
+    // Functions to generate a specific transformation matrix
+    sse_matrix translate(const float x, const float y, const float z);
+    sse_matrix scale(const float sx, const float sy, const float sz);
+    sse_matrix rotate_x(const float deg);
+    sse_matrix rotate_y(const float deg);
+    sse_matrix rotate_z(const float deg);
+    sse_matrix look_at(const sse_vector & eye, const sse_vector & at, const sse_vector & up);
 
 }
 

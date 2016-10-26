@@ -35,40 +35,31 @@
 #include "film.h"
 
 namespace pixel {
-    
-    /*
-     * Define box filter film
-     */
+
+    // Define box filter film
+
     class box_filter_film : public film {
     public:
-        /*
-         * Constructor
-         */
+        // Constructor
+
         box_filter_film(const uint32_t w, const uint32_t h);
-        
-        /*
-         * Destructor
-         */
+
+        // Destructor
+
         ~box_filter_film();
-        
-        /*
-         * Add sample to the film
-         */
+
+        // Add sample to the film
+
         bool add_sample(const sse_spectrum & s, const float x, const float y) override;
-        
-        /*
-         * Get film color at a given coordinate
-         */
+
+        // Get film color at a given coordinate
+
         sse_spectrum get_spectrum(const uint32_t i, const uint32_t j) const override;
-        
+
     private:
-        /*
-         * Unnormalized samples
-         */
+        // Unnormalized samples
         sse_spectrum * raster;
-        /*
-         * Number of samples added per-pixel
-         */
+        // Number of samples added per-pixel
         uint32_t * num_samples;
     };
 }

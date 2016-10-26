@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/core/film.o \
 	${OBJECTDIR}/core/ray.o \
 	${OBJECTDIR}/core/tonemapper.o \
+	${OBJECTDIR}/core/transform.o \
 	${OBJECTDIR}/film/box_film.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/tonemapper/clamp_tonemapper.o
@@ -92,6 +93,11 @@ ${OBJECTDIR}/core/tonemapper.o: core/tonemapper.cc
 	${MKDIR} -p ${OBJECTDIR}/core
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -O2 -Wall -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/tonemapper.o core/tonemapper.cc
+
+${OBJECTDIR}/core/transform.o: core/transform.cc
+	${MKDIR} -p ${OBJECTDIR}/core
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -O2 -Wall -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/transform.o core/transform.cc
 
 ${OBJECTDIR}/film/box_film.o: film/box_film.cc
 	${MKDIR} -p ${OBJECTDIR}/film
@@ -169,6 +175,19 @@ ${OBJECTDIR}/core/tonemapper_nomain.o: ${OBJECTDIR}/core/tonemapper.o core/tonem
 	    $(COMPILE.cc) -g -O2 -Wall -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/tonemapper_nomain.o core/tonemapper.cc;\
 	else  \
 	    ${CP} ${OBJECTDIR}/core/tonemapper.o ${OBJECTDIR}/core/tonemapper_nomain.o;\
+	fi
+
+${OBJECTDIR}/core/transform_nomain.o: ${OBJECTDIR}/core/transform.o core/transform.cc 
+	${MKDIR} -p ${OBJECTDIR}/core
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/core/transform.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -O2 -Wall -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/transform_nomain.o core/transform.cc;\
+	else  \
+	    ${CP} ${OBJECTDIR}/core/transform.o ${OBJECTDIR}/core/transform_nomain.o;\
 	fi
 
 ${OBJECTDIR}/film/box_film_nomain.o: ${OBJECTDIR}/film/box_film.o film/box_film.cc 

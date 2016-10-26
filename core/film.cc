@@ -27,16 +27,18 @@
 namespace pixel {
 
     film::film(const uint32_t w, const uint32_t h)
-    : width(w), height(h) {}
+    : width(w), height(h) {
+    }
 
-    film::~film() {}
-        
+    film::~film() {
+    }
+
     uint32_t film::get_width() const {
         return width;
     }
-        
+
     uint32_t film::get_height() const {
         return height;
     }
-    
+
 }

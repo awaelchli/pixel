@@ -35,23 +35,21 @@
 #include "tonemapper.h"
 
 namespace pixel {
- 
-    /*
-     * Define clamp tone mapper class
-     */
+
+    // Define clamp tone mapper class
+    
     class clamp_tone_mapper : public tone_mapper {
     public:
-        /*
-         * Constructor
-         */
+        // Constructor
+
         clamp_tone_mapper(const float g);
-        
-        /*
-         * Process image and create output .ppm image
-         */
+
+        // Process image and create output .ppm image
+ 
         void process(const std::string & file_name, const film & f) const override;
-        
+
     private:
+        // Gamma correction
         const float gamma;
     };
 }

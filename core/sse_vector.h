@@ -117,6 +117,7 @@ namespace pixel {
             // Packed vector datatype for SSE
             __m128 xmm;
             // Named vector fields
+
             struct {
                 float x, y, z, w;
             };
@@ -168,10 +169,10 @@ namespace pixel {
     }
 
     // SSE dot product
-    #define _MM_DOT(c0, c1, c2, c3, r0, r1, r2, r3) \
+#define _MM_DOT(c0, c1, c2, c3, r0, r1, r2, r3) \
         (((c3)<<7) | ((c2)<<6) | ((c1)<<5) | ((c0)<<4) | ((r3)<<3) | ((r2)<<2) | ((r1)<<1) | r0)
 
-    #define _MM_FULL_DOT _MM_DOT(1,1,1,1,1,1,1,1)
+#define _MM_FULL_DOT _MM_DOT(1,1,1,1,1,1,1,1)
 
     inline __m128 dot_product_sse(const sse_vector & v1, const sse_vector & v2) {
         return _mm_dp_ps(v1.xmm, v2.xmm, _MM_FULL_DOT);

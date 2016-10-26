@@ -35,29 +35,23 @@
 #include "camera.h"
 
 namespace pixel {
-    
-    /*
-     * Define pinhole camera class
-     */
+
+    // Define pinhole camera class
+
     class pinhole_camera : public camera {
     public:
-        /*
-         * Constructor
-         */
-        pinhole_camera( const vector & eye, const vector & at, const vector & up,
-                        const double fov, const uint32_t width, const uint32_t height);
-       
-        /*
-         * Create ray for a given couple of pixel coordinates and a sample
-         */
+        // Constructor
+        pinhole_camera(const sse_vector & eye, const sse_vector & at, const sse_vector & up,
+                const float fov, const uint32_t width, const uint32_t height);
+
+        // Create ray for a given couple of pixel coordinates and a sample
         ray generate_ray(const uint32_t i, const uint32_t j, const double u1, const double u2) const override;
 
     private:
-        /*
-         * Camera position
-         */
+        //Camera position
+
     };
-    
+
 }
 
 

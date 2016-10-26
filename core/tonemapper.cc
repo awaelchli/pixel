@@ -26,6 +26,7 @@
 
 namespace pixel {
 
-    tone_mapper::~tone_mapper() {}
-    
+    tone_mapper::~tone_mapper() {
+    }
+
 }

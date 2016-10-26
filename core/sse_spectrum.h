@@ -36,13 +36,13 @@
 #include <immintrin.h>
 
 namespace pixel {
-    
+
     class sse_spectrum {
     public:
         // Constructor
 
         sse_spectrum()
-        : r(0.f), g(0.f), b(0.f), w(0.f){
+        : r(0.f), g(0.f), b(0.f), w(0.f) {
         }
 
         sse_spectrum(const sse_spectrum & other)
@@ -115,6 +115,7 @@ namespace pixel {
             // Packed vector datatype for SSE
             __m128 xmm;
             // Named vector fields
+
             struct {
                 float r, g, b, w;
             };
@@ -182,9 +183,9 @@ namespace pixel {
     inline void print_sse_spectrum(const sse_spectrum & s) {
         std::cout << "[" << s.r << ", " << s.g << ", " << s.b << "]" << std::endl;
     }
-    
+
     // Clamp color
-    
+
     inline sse_spectrum clamp(const sse_spectrum & s, const float min, const float max) {
         return sse_spectrum(clamp(s.r, min, max), clamp(s.g, min, max), clamp(s.b, min, max));
     }

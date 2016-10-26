@@ -28,7 +28,8 @@
 namespace pixel {
 
     clamp_tone_mapper::clamp_tone_mapper(const float g)
-    : tone_mapper(), gamma(g) {}
+    : tone_mapper(), gamma(g) {
+    }
 
     void clamp_tone_mapper::process(const std::string & file_name, const film & f) const {
         // Create output file
@@ -46,9 +47,9 @@ namespace pixel {
                 // Clamp the color and correct gamma
                 sse_spectrum clamped_c = pow(clamp(c, 0, 1), gamma);
                 // Output color
-                file << static_cast<int32_t>(clamped_c.r * 255) << " ";
-                file << static_cast<int32_t>(clamped_c.g * 255) << " ";
-                file << static_cast<int32_t>(clamped_c.b * 255) << " ";
+                file << static_cast<int32_t> (clamped_c.r * 255) << " ";
+                file << static_cast<int32_t> (clamped_c.g * 255) << " ";
+                file << static_cast<int32_t> (clamped_c.b * 255) << " ";
             }
             file << "\n";
         }

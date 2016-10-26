@@ -35,15 +35,12 @@
 #include "pixel.h"
 
 namespace pixel {
-    
-    /*
-     * Define base camera class
-     */
+
+    //Define base camera class
+
     class camera {
     public:
-        /*
-         * Create ray for a given couple of pixel coordinates and a sample
-         */
+        // Create ray for a given couple of pixel coordinates and a sample
         virtual ray generate_ray(const uint32_t i, const uint32_t j, const double u1, const double u2) const = 0;
     };
 }
