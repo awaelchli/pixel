@@ -11,6 +11,7 @@
         <itemPath>core/camera.h</itemPath>
         <itemPath>core/film.h</itemPath>
         <itemPath>core/interaction.h</itemPath>
+        <itemPath>core/intersectable.h</itemPath>
         <itemPath>core/pixel.h</itemPath>
         <itemPath>core/ray.h</itemPath>
         <itemPath>core/sse_matrix.h</itemPath>
@@ -114,6 +115,8 @@
       <item path="core/interaction.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/interaction.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="core/intersectable.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/pixel.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -224,6 +227,8 @@
       <item path="core/interaction.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/interaction.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="core/intersectable.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/pixel.h" ex="false" tool="3" flavor2="0">
       </item>

@@ -34,17 +34,18 @@
 
 #include "pixel.h"
 #include "sse_vector.h"
+#include "intersectable.h"
 
 namespace pixel {
 
-    // Define interaction class
+    // Define surface_interaction class
 
-    class interaction {
+    class surface_interaction {
     public:
         // Constructor
-        interaction(const float t_p, const sse_vector & hit, const sse_vector & n,
+        surface_interaction(const float t_p, const sse_vector & hit, const sse_vector & n,
                 const sse_vector & s, const sse_vector & t, const float u, const float v,
-                const sse_vector & wo);
+                const sse_vector & wo, const intersectable * isect_ptr);
 
         // Compute emission at interaction in given direction
         sse_spectrum Le(const sse_vector & w) const;
@@ -64,7 +65,13 @@ namespace pixel {
         float u, v;
         // Outgoing direction at intersection
         sse_vector wo;
+        // Intersectable hit
+        const intersectable * intersectable_ptr;
     };
+    
+    // Transform surface_interaction for a given matrix
+    void transform_surface_interaction(surface_interaction * const interaction,
+            const sse_matrix & mat);
 
 }
 

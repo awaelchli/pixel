@@ -100,25 +100,15 @@ namespace pixel {
         }
 
     private:
-        /*
-         * Ray origin
-         */
+        // Ray origin
         sse_vector o;
-        /*
-         * Ray direction
-         */
+        // Ray direction
         sse_vector d;
-        /*
-         * Ray maximum and minimum
-         */
+        // Ray maximum and minimum
         float tmin, tmax;
-        /*
-         * Ray depth
-         */
+        // Ray depth
         uint32_t depth;
-        /*
-         * Ray inverse direction
-         */
+        // Ray inverse direction
         sse_vector inv_d;
     };
 

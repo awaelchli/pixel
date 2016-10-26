@@ -50,7 +50,8 @@ namespace pixel {
     class sse_vector;
     class sse_matrix;
     class sse_spectrum;
-    class interaction;
+    class surface_interaction;
+    class intersectable;
 
     // Declare constant values
     static double EPS = 10e-5;
