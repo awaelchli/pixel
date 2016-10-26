@@ -10,10 +10,13 @@
       <logicalFolder name="f2" displayName="core" projectFiles="true">
         <itemPath>core/camera.h</itemPath>
         <itemPath>core/film.h</itemPath>
+        <itemPath>core/integrator.h</itemPath>
         <itemPath>core/interaction.h</itemPath>
         <itemPath>core/intersectable.h</itemPath>
         <itemPath>core/pixel.h</itemPath>
         <itemPath>core/ray.h</itemPath>
+        <itemPath>core/renderer.h</itemPath>
+        <itemPath>core/scene.h</itemPath>
         <itemPath>core/sse_matrix.h</itemPath>
         <itemPath>core/sse_spectrum.h</itemPath>
         <itemPath>core/sse_vector.h</itemPath>
@@ -41,6 +44,8 @@
         <itemPath>core/film.cc</itemPath>
         <itemPath>core/interaction.cc</itemPath>
         <itemPath>core/ray.cc</itemPath>
+        <itemPath>core/renderer.cc</itemPath>
+        <itemPath>core/scene.cc</itemPath>
         <itemPath>core/sse_matrix.cc</itemPath>
         <itemPath>core/tonemapper.cc</itemPath>
         <itemPath>core/transform.cc</itemPath>
@@ -112,6 +117,8 @@
       </item>
       <item path="core/film.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="core/integrator.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="core/interaction.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/interaction.h" ex="false" tool="3" flavor2="0">
@@ -123,6 +130,14 @@
       <item path="core/ray.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/ray.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="core/renderer.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="core/renderer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="core/scene.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="core/scene.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/sse_matrix.cc" ex="false" tool="1" flavor2="0">
       </item>
@@ -224,6 +239,8 @@
       </item>
       <item path="core/film.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="core/integrator.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="core/interaction.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/interaction.h" ex="false" tool="3" flavor2="0">
@@ -235,6 +252,14 @@
       <item path="core/ray.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/ray.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="core/renderer.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="core/renderer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="core/scene.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="core/scene.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/sse_matrix.cc" ex="false" tool="1" flavor2="0">
       </item>

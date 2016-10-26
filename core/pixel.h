@@ -52,6 +52,10 @@ namespace pixel {
     class sse_spectrum;
     class surface_interaction;
     class intersectable;
+    class integrator;
+    class surface_integrator;
+    class scene;
+    class renderer;
 
     // Declare constant values
     static double EPS = 10e-5;

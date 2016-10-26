@@ -39,6 +39,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/core/film.o \
 	${OBJECTDIR}/core/interaction.o \
 	${OBJECTDIR}/core/ray.o \
+	${OBJECTDIR}/core/renderer.o \
+	${OBJECTDIR}/core/scene.o \
 	${OBJECTDIR}/core/sse_matrix.o \
 	${OBJECTDIR}/core/tonemapper.o \
 	${OBJECTDIR}/core/transform.o \
@@ -101,6 +103,16 @@ ${OBJECTDIR}/core/ray.o: core/ray.cc
 	${MKDIR} -p ${OBJECTDIR}/core
 	${RM} "$@.d"
 	$(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/ray.o core/ray.cc
+
+${OBJECTDIR}/core/renderer.o: core/renderer.cc
+	${MKDIR} -p ${OBJECTDIR}/core
+	${RM} "$@.d"
+	$(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/renderer.o core/renderer.cc
+
+${OBJECTDIR}/core/scene.o: core/scene.cc
+	${MKDIR} -p ${OBJECTDIR}/core
+	${RM} "$@.d"
+	$(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/scene.o core/scene.cc
 
 ${OBJECTDIR}/core/sse_matrix.o: core/sse_matrix.cc
 	${MKDIR} -p ${OBJECTDIR}/core
@@ -206,6 +218,32 @@ ${OBJECTDIR}/core/ray_nomain.o: ${OBJECTDIR}/core/ray.o core/ray.cc
 	    $(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/ray_nomain.o core/ray.cc;\
 	else  \
 	    ${CP} ${OBJECTDIR}/core/ray.o ${OBJECTDIR}/core/ray_nomain.o;\
+	fi
+
+${OBJECTDIR}/core/renderer_nomain.o: ${OBJECTDIR}/core/renderer.o core/renderer.cc 
+	${MKDIR} -p ${OBJECTDIR}/core
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/core/renderer.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/renderer_nomain.o core/renderer.cc;\
+	else  \
+	    ${CP} ${OBJECTDIR}/core/renderer.o ${OBJECTDIR}/core/renderer_nomain.o;\
+	fi
+
+${OBJECTDIR}/core/scene_nomain.o: ${OBJECTDIR}/core/scene.o core/scene.cc 
+	${MKDIR} -p ${OBJECTDIR}/core
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/core/scene.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/scene_nomain.o core/scene.cc;\
+	else  \
+	    ${CP} ${OBJECTDIR}/core/scene.o ${OBJECTDIR}/core/scene_nomain.o;\
 	fi
 
 ${OBJECTDIR}/core/sse_matrix_nomain.o: ${OBJECTDIR}/core/sse_matrix.o core/sse_matrix.cc 
