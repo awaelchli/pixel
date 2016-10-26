@@ -54,18 +54,18 @@ namespace pixel {
         /*
          * Add sample to the film
          */
-        bool add_sample(const spectrum & s, const double x, const double y) override;
+        bool add_sample(const sse_spectrum & s, const float x, const float y) override;
         
         /*
          * Get film color at a given coordinate
          */
-        spectrum get_spectrum(const uint32_t i, const uint32_t j) const override;
+        sse_spectrum get_spectrum(const uint32_t i, const uint32_t j) const override;
         
     private:
         /*
          * Unnormalized samples
          */
-        spectrum * raster;
+        sse_spectrum * raster;
         /*
          * Number of samples added per-pixel
          */

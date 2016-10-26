@@ -32,7 +32,7 @@
 #ifndef FILM_H
 #define FILM_H
 
-#include "spectrum.h"
+#include "sse_spectrum.h"
 
 namespace pixel {
  
@@ -54,12 +54,12 @@ namespace pixel {
         /*
          * Add sample to the film
          */
-        virtual bool add_sample(const spectrum & s, const double x, const double y) = 0;
+        virtual bool add_sample(const sse_spectrum & s, const float x, const float y) = 0;
         
         /*
          * Get film color at a given coordinate
          */
-        virtual spectrum get_spectrum(const uint32_t i, const uint32_t j) const = 0;
+        virtual sse_spectrum get_spectrum(const uint32_t i, const uint32_t j) const = 0;
         
         /*
          * Get width and height of the film

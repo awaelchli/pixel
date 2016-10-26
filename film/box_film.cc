@@ -30,7 +30,7 @@ namespace pixel {
 
     box_filter_film::box_filter_film(const uint32_t w, const uint32_t h)
     : film(w, h) {
-        raster = reinterpret_cast<spectrum *> (malloc(w * h * sizeof (spectrum)));
+        raster = reinterpret_cast<sse_spectrum *> (malloc(w * h * sizeof (sse_spectrum)));
         num_samples = reinterpret_cast<uint32_t *> (malloc(w * h * sizeof (uint32_t)));
     }
 
@@ -39,7 +39,7 @@ namespace pixel {
         free(reinterpret_cast<void *> (num_samples));
     }
 
-    bool box_filter_film::add_sample(const spectrum & s, const double x, const double y) {
+    bool box_filter_film::add_sample(const sse_spectrum & s, const float x, const float y) {
         // Check pixel coordinates
         if (x < 0.0 || static_cast<uint32_t> (x) > width ||
                 y < 0.0 || static_cast<uint32_t> (y) > height) {
@@ -49,9 +49,7 @@ namespace pixel {
         uint32_t i = static_cast<uint32_t> (x);
         uint32_t j = static_cast<uint32_t> (y);
         // Add spectrum value
-        __m256d a = _mm256_loadu_pd(raster[j * width + i].e);
-        a = _mm256_add_pd(a, _mm256_load_pd(s.e));
-        _mm256_storeu_pd(raster[j * width + i].e, a);
+        raster[j * width + i] += s;
 
         // Increase number of samples of that pixel
         num_samples[j * width + i]++;
@@ -59,16 +57,8 @@ namespace pixel {
         return true;
     }
 
-    spectrum box_filter_film::get_spectrum(const uint32_t i, const uint32_t j) const {
-        // Load spectrum
-        __m256d a = _mm256_loadu_pd(raster[j * width + i].e);
-        // Divide by number of samples
-        a = _mm256_div_pd(a, _mm256_set1_pd(num_samples[j * width + i]));
-        spectrum result;
-        // Store new spectrum and return
-        _mm256_storeu_pd(result.e, a);
-
-        return result;
+    sse_spectrum box_filter_film::get_spectrum(const uint32_t i, const uint32_t j) const {
+        return raster[j * width + i];
     }
 
 

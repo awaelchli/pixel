@@ -32,102 +32,86 @@
 #ifndef RAY_H
 #define RAY_H
 
-#include "vector.h"
+#include "pixel.h"
+#include "sse_vector.h"
 
 namespace pixel {
 
-    /*
-     * Ray class
-     */
+    // Ray class
+
     class ray {
     public:
 
-        /*
-         * Constructor
-         */
-        ray(const vector & o, const vector & d,
-                const double tmin = EPS, const double tmax = INFINITY,
+        // Constructor
+        ray(const sse_vector & o, const sse_vector & d,
+                const float tmin = EPS, const float tmax = INFINITY,
                 const uint32_t depth = 0);
 
-        /*
-         * Get ray origin
-         */
-        inline const vector & origin() const {
+        // Get ray origin
+
+        inline const sse_vector & origin() const {
             return o;
         }
 
-        inline vector & origin() {
+        inline sse_vector & origin() {
             return o;
         }
 
-        /*
-         * Get ray direction
-         */
-        inline const vector & direction() const {
+        // Get ray direction
+
+        inline const sse_vector & direction() const {
             return d;
         }
 
-        inline vector & direction() {
+        inline sse_vector & direction() {
             return d;
         }
 
-        /*
-         * Get ray inverse direction
-         */
-        inline const vector & inv_direction() const {
+        // Get ray inverse direction
+
+        inline const sse_vector & inv_direction() const {
             return inv_d;
         }
 
-        inline vector & inv_direction() {
+        inline sse_vector & inv_direction() {
             return inv_d;
         }
 
-        /*
-         * Get ray maximum and minimum
-         */
-        inline double ray_min() const {
+        // Get ray maximum and minimum
+
+        inline float ray_min() const {
             return tmin;
         }
 
-        inline double ray_max() const {
+        inline float ray_max() const {
             return tmax;
         }
 
-        /*
-         * Get ray depth
-         */
+        // Get ray depth
+
         inline uint32_t ray_depth() const {
             return depth;
         }
 
-        /*
-         * Find point at a given parameter
-         */
-        inline vector operator()(const double t) const {
-            // Load origin into __m256d variable
-            __m256d a = _mm256_load_pd(o.e);
-            // Compute ray point
-            a = _mm256_add_pd(a, _mm256_mul_pd(_mm256_load_pd(d.e), _mm256_set1_pd(t)));
-            // Result
-            vector result;
-            _mm256_store_pd(result.e, a);
+        // Find point at a given parameter
 
-            return result;
+        inline sse_vector operator()(const float t) const {
+            return (o + t * d);
         }
 
     private:
         /*
          * Ray origin
          */
-        vector o;
+        sse_vector o;
         /*
          * Ray direction
          */
-        vector d;
+        sse_vector d;
         /*
          * Ray maximum and minimum
          */
-        double tmin, tmax;
+        float tmin, tmax;
         /*
          * Ray depth
          */
@@ -135,7 +119,7 @@ namespace pixel {
         /*
          * Ray inverse direction
          */
-        vector inv_d;
+        sse_vector inv_d;
     };
 
     /*

@@ -44,7 +44,7 @@ namespace pixel {
         /*
          * Constructor
          */
-        clamp_tone_mapper(const double g);
+        clamp_tone_mapper(const float g);
         
         /*
          * Process image and create output .ppm image
@@ -52,7 +52,7 @@ namespace pixel {
         void process(const std::string & file_name, const film & f) const override;
         
     private:
-        const double gamma;
+        const float gamma;
     };
 }
 

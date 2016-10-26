@@ -2,22 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <data xmlns="http://www.netbeans.org/ns/make-project-private/1">
         <activeConfTypeElem>1</activeConfTypeElem>
-        <activeConfIndexElem>1</activeConfIndexElem>
+        <activeConfIndexElem>0</activeConfIndexElem>
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/simon/NetBeansProjects/pixel/core/film.h</file>
-            <file>file:/home/simon/NetBeansProjects/pixel/core/pixel.h</file>
-            <file>file:/home/simon/NetBeansProjects/pixel/tonemapper/clamp_tonemapper.cc</file>
-            <file>file:/home/simon/NetBeansProjects/pixel/main.cc</file>
-            <file>file:/home/simon/NetBeansProjects/pixel/film/box_film.h</file>
-            <file>file:/home/simon/NetBeansProjects/pixel/core/matrix.cc</file>
-            <file>file:/home/simon/NetBeansProjects/pixel/core/spectrum.h</file>
-            <file>file:/home/simon/NetBeansProjects/pixel/core/ray.h</file>
             <file>file:/home/simon/NetBeansProjects/pixel/core/matrix.h</file>
-            <file>file:/home/simon/NetBeansProjects/pixel/tests/vector_test_class.cc</file>
-            <file>file:/home/simon/NetBeansProjects/pixel/tests/vector_test_runner.cc</file>
             <file>file:/home/simon/NetBeansProjects/pixel/core/vector.h</file>
         </group>
     </open-files>

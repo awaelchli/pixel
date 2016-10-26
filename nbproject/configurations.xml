@@ -10,13 +10,13 @@
       <logicalFolder name="f2" displayName="core" projectFiles="true">
         <itemPath>core/camera.h</itemPath>
         <itemPath>core/film.h</itemPath>
-        <itemPath>core/matrix.h</itemPath>
         <itemPath>core/pixel.h</itemPath>
         <itemPath>core/ray.h</itemPath>
-        <itemPath>core/spectrum.h</itemPath>
+        <itemPath>core/sse_matrix.h</itemPath>
+        <itemPath>core/sse_spectrum.h</itemPath>
+        <itemPath>core/sse_vector.h</itemPath>
         <itemPath>core/tonemapper.h</itemPath>
         <itemPath>core/transform.h</itemPath>
-        <itemPath>core/vector.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="film" projectFiles="true">
         <itemPath>film/box_film.h</itemPath>
@@ -34,7 +34,6 @@
                    projectFiles="true">
       <logicalFolder name="f1" displayName="core" projectFiles="true">
         <itemPath>core/film.cc</itemPath>
-        <itemPath>core/matrix.cc</itemPath>
         <itemPath>core/ray.cc</itemPath>
         <itemPath>core/tonemapper.cc</itemPath>
         <itemPath>core/transform.cc</itemPath>
@@ -86,7 +85,8 @@
             <pElem>tonemapper</pElem>
             <pElem>camera</pElem>
           </incDir>
-          <commandLine>-Wall -Wextra -pedantic -march=native</commandLine>
+          <commandLine>-march=native</commandLine>
+          <warningLevel>2</warningLevel>
         </ccTool>
         <linkerTool>
           <linkerDynSerch>
@@ -103,27 +103,23 @@
       </item>
       <item path="core/film.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="core/matrix.cc" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="core/matrix.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="core/pixel.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/ray.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/ray.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="core/spectrum.h" ex="false" tool="3" flavor2="0">
+      <item path="core/sse_matrix.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="core/sse_spectrum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="core/sse_vector.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/tonemapper.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/tonemapper.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="core/transform.cc" ex="false" tool="1" flavor2="0">
-      </item>
       <item path="core/transform.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="core/vector.h" ex="false" tool="3" flavor2="0">
       </item>
       <folder path="TestFiles">
         <linkerTool>
@@ -207,17 +203,17 @@
       </item>
       <item path="core/film.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="core/matrix.cc" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="core/matrix.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="core/pixel.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/ray.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/ray.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="core/spectrum.h" ex="false" tool="3" flavor2="0">
+      <item path="core/sse_matrix.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="core/sse_spectrum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="core/sse_vector.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="core/tonemapper.cc" ex="false" tool="1" flavor2="0">
       </item>
@@ -226,8 +222,6 @@
       <item path="core/transform.cc" ex="false" tool="1" flavor2="0">
       </item>
       <item path="core/transform.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="core/vector.h" ex="false" tool="3" flavor2="0">
       </item>
       <folder path="TestFiles">
         <linkerTool>

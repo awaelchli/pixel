@@ -36,7 +36,6 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/core/film.o \
-	${OBJECTDIR}/core/matrix.o \
 	${OBJECTDIR}/core/ray.o \
 	${OBJECTDIR}/core/tonemapper.o \
 	${OBJECTDIR}/core/transform.o \
@@ -84,11 +83,6 @@ ${OBJECTDIR}/core/film.o: core/film.cc
 	${MKDIR} -p ${OBJECTDIR}/core
 	${RM} "$@.d"
 	$(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/film.o core/film.cc
-
-${OBJECTDIR}/core/matrix.o: core/matrix.cc
-	${MKDIR} -p ${OBJECTDIR}/core
-	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/matrix.o core/matrix.cc
 
 ${OBJECTDIR}/core/ray.o: core/ray.cc
 	${MKDIR} -p ${OBJECTDIR}/core
@@ -155,19 +149,6 @@ ${OBJECTDIR}/core/film_nomain.o: ${OBJECTDIR}/core/film.o core/film.cc
 	    $(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/film_nomain.o core/film.cc;\
 	else  \
 	    ${CP} ${OBJECTDIR}/core/film.o ${OBJECTDIR}/core/film_nomain.o;\
-	fi
-
-${OBJECTDIR}/core/matrix_nomain.o: ${OBJECTDIR}/core/matrix.o core/matrix.cc 
-	${MKDIR} -p ${OBJECTDIR}/core
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/core/matrix.o`; \
-	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
-	then  \
-	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Icore -Ifilm -Itonemapper -Icamera -std=c++14 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/core/matrix_nomain.o core/matrix.cc;\
-	else  \
-	    ${CP} ${OBJECTDIR}/core/matrix.o ${OBJECTDIR}/core/matrix_nomain.o;\
 	fi
 
 ${OBJECTDIR}/core/ray_nomain.o: ${OBJECTDIR}/core/ray.o core/ray.cc 

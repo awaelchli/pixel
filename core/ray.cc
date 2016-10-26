@@ -26,18 +26,18 @@
 
 namespace pixel {
    
-    ray::ray(const vector& o, const vector& d, const double tmin, const double tmax, const uint32_t depth)
+    ray::ray(const sse_vector & o, const sse_vector & d, const float tmin, const float tmax, const uint32_t depth)
     : o(o), d(d), tmin(tmin), tmax(tmax), depth(depth),
-    inv_d(1.0 / d.e[0], 1.0 / d.e[1], 1.0 / d.e[2], 0.0) {
+    inv_d(1.f / d.x, 1.f / d.y, 1.f / d.z, 0.f) {
     }
 
     void print_ray(const ray & r) {
         // Print origin
         std::cout << "Ray origin: ";
-        print_vec(r.origin());
+        print_sse_vector(r.origin());
         // Print direction
         std::cout << "Direction: ";
-        print_vec(r.direction());
+        print_sse_vector(r.direction());
         // Print ray maximum and minimum
         std::cout << "T min: " << r.ray_min() << std::endl;
         std::cout << "T max: " << r.ray_max() << std::endl;

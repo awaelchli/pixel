@@ -49,8 +49,9 @@ namespace pixel {
     class box_filter_film;
     class tone_mapper;
     class clamp_tone_mapper;
-    struct vector;
-    class matrix;
+    class sse_vector;
+    class sse_matrix;
+    class sse_spectrum;
     class transform;
     
     /*
